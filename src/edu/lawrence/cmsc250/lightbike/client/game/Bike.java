@@ -1,6 +1,7 @@
 package edu.lawrence.cmsc250.lightbike.client.game;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.lawrence.cmsc250.lightbike.client.game.physics.Point2D;
 
@@ -10,7 +11,7 @@ import edu.lawrence.cmsc250.lightbike.client.game.physics.Point2D;
 public class Bike
 {
 	private final BikeColor color;
-	private final ArrayList<Point2D> path = new ArrayList<>();
+	private final List<Point2D> path = new ArrayList<>();
 	private Point2D location;
 	
 	public Bike(Point2D startPos, BikeColor color)
