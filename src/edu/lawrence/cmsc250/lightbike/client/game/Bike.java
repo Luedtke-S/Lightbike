@@ -3,6 +3,7 @@ package edu.lawrence.cmsc250.lightbike.client.game;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.lawrence.cmsc250.lightbike.client.game.physics.Direction;
 import edu.lawrence.cmsc250.lightbike.client.game.physics.Point2D;
 
 /**
