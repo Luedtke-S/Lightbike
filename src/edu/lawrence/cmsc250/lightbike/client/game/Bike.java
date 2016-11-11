@@ -35,19 +35,7 @@ public class Bike
 		this.color = color;
 	}
 	
-	public void updateFrom(String updateFrom)
-	{
-		// Bike format:
-		// {location}>{turn?}>{direction?}
-		String[] data = updateFrom.split(">");
-		this.location = new Point2D(data[0]);
-		if (data.length == 3) {
-			this.path.add(new Point2D(data[1]));
-			this.direction = Direction.fromInt(Integer.parseInt(data[2]));
-		}
-	}
-	
-	public Bike[] getBikes()
+	public static Bike[] getBikes()
 	{
 		if (bikeCount < 2 || bikeCount > 4)
 			throw new IllegalStateException("bikeCount must be >= 2 and <= 4");
@@ -62,6 +50,18 @@ public class Bike
 		}
 		
 		throw new IllegalStateException("Something went very wrong");
+	}
+	
+	public void updateFrom(String updateFrom)
+	{
+		// Bike format:
+		// {location}>{turn?}>{direction?}
+		String[] data = updateFrom.split(">");
+		this.location = new Point2D(data[0]);
+		if (data.length == 3) {
+			this.path.add(new Point2D(data[1]));
+			this.direction = Direction.fromInt(Integer.parseInt(data[2]));
+		}
 	}
 	
 	public enum BikeColor
