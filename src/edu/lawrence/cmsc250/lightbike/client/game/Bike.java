@@ -22,12 +22,13 @@ public class Bike
 	public static final Bike bike4 = new Bike(new Point2D(-1 * START_OFFSET, START_OFFSET), Direction.DOWN, BikeColor.YELLOW);
 	
 	public static int bikeCount = -1;
-	private final BikeColor color;
-	private final List<Point2D> path = new ArrayList<>();
+	
+	public final BikeColor color;
+	public final List<Point2D> path = new ArrayList<>();
 	private Point2D location;
 	private Direction direction;
 	
-	private Bike(Point2D startPos, Direction direction, BikeColor color)
+	public Bike(Point2D startPos, Direction direction, BikeColor color)
 	{
 		this.location = startPos;
 		this.path.add(startPos);
@@ -50,6 +51,16 @@ public class Bike
 		}
 		
 		throw new IllegalStateException("Something went very wrong");
+	}
+	
+	public Point2D getLocation()
+	{
+		return location;
+	}
+	
+	public Direction getDirection()
+	{
+		return direction;
 	}
 	
 	public void updateFrom(String updateFrom)
