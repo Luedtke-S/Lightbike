@@ -55,17 +55,38 @@ public enum Gateway
 		ProcessInputThread.startThread(new BufferedReader(r));
 	}
 	
+	/**
+	 * Register an event handler
+	 *
+	 * @param handler The event handler to register
+	 * @param clazz   The event class for which this handler should be registered
+	 * @param <T>     The type of the event class
+	 */
 	public static <T extends PacketEvent> void addEventHandler(PacketEventHandler<T> handler, Class<T> clazz)
 	{
 		EVENT_HANDLER_MAP.put(clazz, handler);
 	}
 	
+	/**
+	 * Send a direction press to the server -- MUST BE {@link Direction#LEFT} or {@link Direction#RIGHT}
+	 *
+	 * @param d The direction to turn
+	 */
 	public static void sendControlPressed(Direction d)
 	{
+		if (d != Direction.LEFT && d != Direction.RIGHT)
+			throw new IllegalStateException("Control must be either LEFT or RIGHT");
 		sendPacket(OutboundPacketType.CONTROL, d.toInt());
 	}
 	
 	// <editor-fold desc="Send packet methods" defaultstate="collapsed">
+	
+	/**
+	 * Send a packet to the server
+	 *
+	 * @param packetType The type of packet to send
+	 * @param packet     The packet data to send
+	 */
 	private static void sendPacket(OutboundPacketType packetType, int packet)
 	{
 		System.out.println("Sending packet of type " + packetType.name() + " with data " + packet);
@@ -74,6 +95,12 @@ public enum Gateway
 //		OUTPUT.flush();
 	}
 	
+	/**
+	 * Send a packet to the server
+	 *
+	 * @param packetType The type of packet to send
+	 * @param packet     The packet data to send
+	 */
 	private static void sendPacket(OutboundPacketType packetType, String packet)
 	{
 		System.out.println("Sending packet of type " + packetType.name() + " with data " + packet);
