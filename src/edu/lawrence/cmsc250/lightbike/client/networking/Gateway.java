@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import edu.lawrence.cmsc250.lightbike.client.game.physics.Direction;
+import javafx.application.Platform;
 import static edu.lawrence.cmsc250.lightbike.client.game.Bike.*;
 
 /**
@@ -277,8 +278,11 @@ public enum Gateway
 									bike2.updateFrom(data[3]);
 									bike1.updateFrom(data[2]);
 							}
+							
 							//noinspection unchecked
-							EVENT_HANDLER_MAP.get(GameUpdateEvent.class).handleEvent(new GameUpdateEvent(updateNumber));
+							PacketEventHandler<GameUpdateEvent> handler = EVENT_HANDLER_MAP.get(GameUpdateEvent.class);
+							GameUpdateEvent event = new GameUpdateEvent(updateNumber);
+							Platform.runLater(() -> handler.handleEvent(event));
 							break;
 						case RESPONSE:
 							//TODO process response
