@@ -5,10 +5,19 @@ package edu.lawrence.cmsc250.lightbike.client.game.physics;
  */
 public class Point2D
 {
-	public final int x;
-	public final int y;
+	public final double x;
+	public final double y;
 	
-	public Point2D(int x, int y)
+	public Point2D(String loadFrom)
+	{
+		// Point format:
+		// {x}:{y}
+		String[] data = loadFrom.split(":");
+		this.x = Double.parseDouble(data[0]);
+		this.y = Double.parseDouble(data[1]);
+	}
+	
+	public Point2D(double x, double y)
 	{
 		this.x = x;
 		this.y = y;
