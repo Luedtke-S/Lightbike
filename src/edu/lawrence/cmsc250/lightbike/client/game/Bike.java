@@ -14,7 +14,7 @@ import static edu.lawrence.cmsc250.lightbike.client.game.Constants.START_OFFSET;
 public class Bike
 {
 	/** The pattern to validate the String passed into {@link #updateFrom(String)} */
-	public static final Pattern BIKE_STRING_FORMAT = Pattern.compile(Point2D.POINT_STRING_FORMAT + "(>d+>" + Point2D.POINT_STRING_FORMAT + ")?");
+	public static final Pattern BIKE_STRING_FORMAT = Pattern.compile(Point2D.POINT_STRING_FORMAT + "(>\\d+>" + Point2D.POINT_STRING_FORMAT + ")?");
 	
 	/** Player 1 - Starts bottom-left moving right  --  color: red */
 	public static final Bike bike1 = new Bike(new Point2D(-1 * START_OFFSET, -1 * START_OFFSET), Direction.RIGHT, BikeColor.RED);
