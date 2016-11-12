@@ -4,7 +4,10 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.lawrence.cmsc250.lightbike.client.game.Bike;
+import edu.lawrence.cmsc250.lightbike.client.game.Constants;
 import edu.lawrence.cmsc250.lightbike.client.game.physics.Direction;
+import edu.lawrence.cmsc250.lightbike.client.game.physics.Point2D;
 import javafx.application.Platform;
 import static edu.lawrence.cmsc250.lightbike.client.game.Bike.*;
 
@@ -15,6 +18,7 @@ public enum Gateway
 {
 	; //DO NOT REMOVE
 	
+	/** The map of packet types to their corresponding {@link PacketEventHandler}s */
 	private static final Map<Class, PacketEventHandler> EVENT_HANDLER_MAP = new HashMap<>();
 	
 	/** The OUTPUT going to the server */
@@ -24,8 +28,8 @@ public enum Gateway
 	
 	// Establish the connection to the server.
 	static {
-		OUTPUT = null;
-		INPUT = null;
+//		OUTPUT = null;
+//		INPUT = null;
 
 //		OutputStream outputStream = null;
 //		InputStream inputStream = null;
@@ -52,8 +56,16 @@ public enum Gateway
 //		// Start the communication thread
 //		ProcessInputThread.startThread(INPUT);
 		
-		Reader r = new StringReader(InboundPacketType.UPDATE.ordinal() + "\n1|2|30:10|40:10");
-		ProcessInputThread.startThread(new BufferedReader(r));
+		PipedInputStream pis = new PipedInputStream();
+		PipedOutputStream pos = null;
+		try {
+			pos = new PipedOutputStream(pis);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		INPUT = new BufferedReader(new InputStreamReader(pis));
+		OUTPUT = new PrintWriter(pos);
+		ProcessInputThread.startThread(INPUT);
 	}
 	
 	/**
@@ -66,6 +78,27 @@ public enum Gateway
 	public static <T extends PacketEvent> void addEventHandler(PacketEventHandler<T> handler, Class<T> clazz)
 	{
 		EVENT_HANDLER_MAP.put(clazz, handler);
+		
+		if (clazz.equals(GameUpdateEvent.class)) {
+			new Thread(() -> {
+				Point2D bike1Start = Bike.bike1.getLocation();
+				Point2D bike2Start = Bike.bike2.getLocation();
+				
+				for (int i = 1; i < Constants.GRID_SIZE - Constants.START_OFFSET; i++) {
+					String bike1 = (bike1Start.x - i) + ":" + (bike1Start.y);
+					String bike2 = (bike2Start.x + i) + ":" + (bike2Start.y);
+					OUTPUT.println(InboundPacketType.UPDATE.ordinal() + "\n" + i + "|2|" + bike1 + "|" + bike2);
+					OUTPUT.flush();
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+				
+				OUTPUT.close();
+			}).start();
+		}
 	}
 	
 	/**
@@ -138,10 +171,18 @@ public enum Gateway
 	/** An event fired when a game update occurs */
 	public static class GameUpdateEvent implements PacketEvent
 	{
+		/** The number of the last update received - used to make sure no update was missed */
 		public static int lastUpdateNumber = -1;
 		
-		public GameUpdateEvent(int updateNumber)
+		/**
+		 * Create a new GameUpdateEvent instance
+		 *
+		 * @param updateNumber The update number for this update
+		 */
+		GameUpdateEvent(int updateNumber)
 		{
+			if (updateNumber != lastUpdateNumber + 1)
+				throw new IllegalStateException("Update numbers must be sequential - expected '" + (lastUpdateNumber + 1) + "' got '" + updateNumber + "'");
 			lastUpdateNumber = updateNumber;
 		}
 	}
@@ -213,7 +254,7 @@ public enum Gateway
 	
 	
 	/** The thread responsible for communicating with the server */
-	private static class ProcessInputThread extends Thread
+	private static final class ProcessInputThread extends Thread
 	{
 		/** Whether or not the thread has been started */
 		private static boolean started = false;
@@ -235,7 +276,7 @@ public enum Gateway
 		 *
 		 * @param input The input coming from the server
 		 */
-		public static void startThread(BufferedReader input)
+		static void startThread(BufferedReader input)
 		{
 			if (started)
 				return; //Don't start twice
@@ -251,13 +292,13 @@ public enum Gateway
 					String s = input.readLine();
 					if (s == null)
 						break;
-					InboundPacketType pt = InboundPacketType.fromInt(Integer.parseInt(s));
-					switch (pt) {
+					
+					switch (InboundPacketType.fromInt(Integer.parseInt(s))) {
 						case SETUP:
 							//TODO do setup
 							break;
 						case UPDATE:
-							// Packet format:
+							// Packet format
 							// {updatenumber}|{bikecount}|{bike1}|{bike2}|{bike3?}|{bike4?}
 							String[] data = input.readLine().split("\\|");
 							
@@ -266,7 +307,7 @@ public enum Gateway
 							
 							int updateNumber = Integer.parseInt(data[0]);
 							if (GameUpdateEvent.lastUpdateNumber > -1 && updateNumber != GameUpdateEvent.lastUpdateNumber + 1)
-								throw new IllegalStateException("Update numbers don't match!");
+								throw new IllegalStateException("Update numbers must be sequential - expected '" + (GameUpdateEvent.lastUpdateNumber + 1) + "' got '" + updateNumber + "'");
 							
 							int bikeCount = Integer.parseInt(data[1]);
 							switch (bikeCount) {
@@ -297,6 +338,8 @@ public enum Gateway
 			} catch (IOException | NumberFormatException e) {
 				e.printStackTrace();
 			}
+			
+			System.out.println("ProcessInputThread has closed");
 		}
 	}
 }

@@ -5,14 +5,17 @@ package edu.lawrence.cmsc250.lightbike.client.game.physics;
  */
 public class LineSegment
 {
+	/** The first endpoint of the line */
 	public final Point2D pointA;
+	/** The second endpoint of the line */
 	public final Point2D pointB;
 	
-	public LineSegment(int xA, int yA, int xB, int yB)
-	{
-		this(new Point2D(xA, yA), new Point2D(xB, yB));
-	}
-	
+	/**
+	 * Make a new LineSegment
+	 *
+	 * @param pointA The first endpoint of the line
+	 * @param pointB The second endpoint of the line
+	 */
 	public LineSegment(Point2D pointA, Point2D pointB)
 	{
 		this.pointA = pointA;
