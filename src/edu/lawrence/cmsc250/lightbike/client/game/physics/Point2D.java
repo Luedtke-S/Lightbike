@@ -10,7 +10,7 @@ import edu.lawrence.cmsc250.lightbike.client.game.Constants;
 public class Point2D
 {
 	/** The pattern to validate the String passed into {@link #Point2D(String)} */
-	public static final Pattern POINT_STRING_FORMAT = Pattern.compile("^\\d+(\\.\\d+)?:\\d+(\\.\\d+)?$");
+	public static final Pattern POINT_STRING_FORMAT = Pattern.compile("^-?\\d+(\\.\\d+)?:-?\\d+(\\.\\d+)?$");
 	
 	/** The X position of this point */
 	public final double x;
