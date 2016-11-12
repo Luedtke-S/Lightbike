@@ -70,6 +70,8 @@ public enum Gateway
 	
 	/**
 	 * Register an event handler
+	 * 
+	 * NOTE: The event handle will ALWAYS be run on the main graphics thread
 	 *
 	 * @param handler The event handler to register
 	 * @param clazz   The event class for which this handler should be registered
@@ -81,19 +83,28 @@ public enum Gateway
 		
 		if (clazz.equals(GameUpdateEvent.class)) {
 			new Thread(() -> {
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException ignored) {}
+				
+				System.out.println("Starting arbitrary bike data");
+				
 				Point2D bike1Start = Bike.bike1.getLocation();
 				Point2D bike2Start = Bike.bike2.getLocation();
 				
-				for (int i = 1; i < Constants.GRID_SIZE - Constants.START_OFFSET; i++) {
-					String bike1 = (bike1Start.x - i) + ":" + (bike1Start.y);
-					String bike2 = (bike2Start.x + i) + ":" + (bike2Start.y);
+				int gap = (Constants.GRID_SIZE / 2) - Constants.START_OFFSET;
+				int max = Constants.GRID_SIZE - gap * 2;
+				max *= 10;
+				
+				for (int i = 1; i <= max; i++) {
+					System.out.println("Sent bike data " + i + "/" + (max - 1));
+					String bike1 = (bike1Start.x + (i / 10.0)) + ":" + (bike1Start.y);
+					String bike2 = (bike2Start.x - (i / 10.0)) + ":" + (bike2Start.y);
 					OUTPUT.println(InboundPacketType.UPDATE.ordinal() + "\n" + i + "|2|" + bike1 + "|" + bike2);
 					OUTPUT.flush();
 					try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
+						Thread.sleep(1000 / 60);
+					} catch (InterruptedException ignored) {}
 				}
 				
 				OUTPUT.close();
@@ -172,7 +183,7 @@ public enum Gateway
 	public static class GameUpdateEvent implements PacketEvent
 	{
 		/** The number of the last update received - used to make sure no update was missed */
-		public static int lastUpdateNumber = -1;
+		public static int lastUpdateNumber = 0;
 		
 		/**
 		 * Create a new GameUpdateEvent instance
@@ -306,7 +317,7 @@ public enum Gateway
 								return; //There is no handler for this event, don't bother
 							
 							int updateNumber = Integer.parseInt(data[0]);
-							if (GameUpdateEvent.lastUpdateNumber > -1 && updateNumber != GameUpdateEvent.lastUpdateNumber + 1)
+							if (updateNumber != GameUpdateEvent.lastUpdateNumber + 1)
 								throw new IllegalStateException("Update numbers must be sequential - expected '" + (GameUpdateEvent.lastUpdateNumber + 1) + "' got '" + updateNumber + "'");
 							
 							int bikeCount = Integer.parseInt(data[1]);
