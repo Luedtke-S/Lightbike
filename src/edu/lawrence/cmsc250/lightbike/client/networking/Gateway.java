@@ -69,7 +69,7 @@ public enum Gateway
 	
 	/**
 	 * Register an event handler
-	 * 
+	 * <p>
 	 * NOTE: The event handle will ALWAYS be run on the main graphics thread
 	 *
 	 * @param handler The event handler to register
@@ -95,11 +95,13 @@ public enum Gateway
 				int max = Constants.GRID_SIZE - gap * 2;
 				max *= 10;
 				
+				int packet = 0;
+				
 				for (int i = 1; i <= max; i++) {
 					System.out.println("[1/3] Sent bike data " + i + "/" + (max - 1));
 					String bike1 = (bike1Start.x + (i / 10.0)) + ":" + (bike1Start.y);
 					String bike2 = (bike2Start.x - (i / 10.0)) + ":" + (bike2Start.y);
-					OUTPUT.println(InboundPacketType.UPDATE.ordinal() + "\n" + i + "|2|" + bike1 + "|" + bike2);
+					OUTPUT.println(InboundPacketType.UPDATE.ordinal() + "\n" + (++packet) + "|2|" + bike1 + "|" + bike2);
 					OUTPUT.flush();
 					try {
 						Thread.sleep(1000 / 60);
@@ -109,11 +111,22 @@ public enum Gateway
 				bike1Start = new Point2D(bike1Start.x + (max / 10.0), bike1Start.y);
 				bike2Start = new Point2D(bike2Start.x - (max / 10.0), bike1Start.y);
 				
+				{ //Turn 1
+					System.out.println("[1.5/3] Sent bike turn data 1/2");
+					String bike1 = (bike1Start.x) + ":" + (bike1Start.y) + ">" + (bike1Start.x) + ":" + (bike1Start.y) + ">" + Direction.DOWN.toInt();
+					String bike2 = (bike2Start.x) + ":" + (bike2Start.y) + ">" + (bike2Start.x) + ":" + (bike2Start.y) + ">" + Direction.UP.toInt();
+					OUTPUT.println(InboundPacketType.UPDATE.ordinal() + "\n" + (++packet) + "|2|" + bike1 + "|" + bike2);
+					OUTPUT.flush();
+					try {
+						Thread.sleep(1000 / 60);
+					} catch (InterruptedException ignored) {}
+				}
+				
 				for (int i = 1; i <= max / 2; i++) {
 					System.out.println("[2/3] Sent bike data " + i + "/" + (max - 1));
 					String bike1 = (bike1Start.x) + ":" + (bike1Start.y + (i / 10.0));
 					String bike2 = (bike2Start.x) + ":" + (bike2Start.y - (i / 10.0));
-					OUTPUT.println(InboundPacketType.UPDATE.ordinal() + "\n" + i + "|2|" + bike1 + "|" + bike2);
+					OUTPUT.println(InboundPacketType.UPDATE.ordinal() + "\n" + (++packet) + "|2|" + bike1 + "|" + bike2);
 					OUTPUT.flush();
 					try {
 						Thread.sleep(1000 / 60);
@@ -123,11 +136,22 @@ public enum Gateway
 				bike1Start = new Point2D(bike1Start.x, bike1Start.y + ((max / 2) / 10.0));
 				bike2Start = new Point2D(bike2Start.x, bike1Start.y - ((max / 2) / 10.0));
 				
+				{ //Turn 2
+					System.out.println("[2.5/3] Sent bike turn data 2/2");
+					String bike1 = (bike1Start.x) + ":" + (bike1Start.y) + ">" + (bike1Start.x) + ":" + (bike1Start.y) + ">" + Direction.LEFT.toInt();
+					String bike2 = (bike2Start.x) + ":" + (bike2Start.y) + ">" + (bike2Start.x) + ":" + (bike2Start.y) + ">" + Direction.RIGHT.toInt();
+					OUTPUT.println(InboundPacketType.UPDATE.ordinal() + "\n" + (++packet) + "|2|" + bike1 + "|" + bike2);
+					OUTPUT.flush();
+					try {
+						Thread.sleep(1000 / 60);
+					} catch (InterruptedException ignored) {}
+				}
+				
 				for (int i = 1; i <= max; i++) {
 					System.out.println("[3/3] Sent bike data " + i + "/" + (max - 1));
 					String bike1 = (bike1Start.x - (i / 10.0)) + ":" + (bike1Start.y);
 					String bike2 = (bike2Start.x + (i / 10.0)) + ":" + (bike2Start.y);
-					OUTPUT.println(InboundPacketType.UPDATE.ordinal() + "\n" + i + "|2|" + bike1 + "|" + bike2);
+					OUTPUT.println(InboundPacketType.UPDATE.ordinal() + "\n" + (++packet) + "|2|" + bike1 + "|" + bike2);
 					OUTPUT.flush();
 					try {
 						Thread.sleep(1000 / 60);
