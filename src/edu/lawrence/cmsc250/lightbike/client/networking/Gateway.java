@@ -4,7 +4,6 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
-import edu.lawrence.cmsc250.lightbike.client.game.Bike;
 import edu.lawrence.cmsc250.lightbike.client.game.Constants;
 import edu.lawrence.cmsc250.lightbike.client.game.physics.Direction;
 import edu.lawrence.cmsc250.lightbike.client.game.physics.Point2D;
@@ -89,17 +88,45 @@ public enum Gateway
 				
 				System.out.println("Starting arbitrary bike data");
 				
-				Point2D bike1Start = Bike.bike1.getLocation();
-				Point2D bike2Start = Bike.bike2.getLocation();
+				Point2D bike1Start = bike1.getLocation();
+				Point2D bike2Start = bike2.getLocation();
 				
 				int gap = (Constants.GRID_SIZE / 2) - Constants.START_OFFSET;
 				int max = Constants.GRID_SIZE - gap * 2;
 				max *= 10;
 				
 				for (int i = 1; i <= max; i++) {
-					System.out.println("Sent bike data " + i + "/" + (max - 1));
+					System.out.println("[1/3] Sent bike data " + i + "/" + (max - 1));
 					String bike1 = (bike1Start.x + (i / 10.0)) + ":" + (bike1Start.y);
 					String bike2 = (bike2Start.x - (i / 10.0)) + ":" + (bike2Start.y);
+					OUTPUT.println(InboundPacketType.UPDATE.ordinal() + "\n" + i + "|2|" + bike1 + "|" + bike2);
+					OUTPUT.flush();
+					try {
+						Thread.sleep(1000 / 60);
+					} catch (InterruptedException ignored) {}
+				}
+				
+				bike1Start = new Point2D(bike1Start.x + (max / 10.0), bike1Start.y);
+				bike2Start = new Point2D(bike2Start.x - (max / 10.0), bike1Start.y);
+				
+				for (int i = 1; i <= max / 2; i++) {
+					System.out.println("[2/3] Sent bike data " + i + "/" + (max - 1));
+					String bike1 = (bike1Start.x) + ":" + (bike1Start.y + (i / 10.0));
+					String bike2 = (bike2Start.x) + ":" + (bike2Start.y - (i / 10.0));
+					OUTPUT.println(InboundPacketType.UPDATE.ordinal() + "\n" + i + "|2|" + bike1 + "|" + bike2);
+					OUTPUT.flush();
+					try {
+						Thread.sleep(1000 / 60);
+					} catch (InterruptedException ignored) {}
+				}
+				
+				bike1Start = new Point2D(bike1Start.x, bike1Start.y + ((max / 2) / 10.0));
+				bike2Start = new Point2D(bike2Start.x, bike1Start.y - ((max / 2) / 10.0));
+				
+				for (int i = 1; i <= max; i++) {
+					System.out.println("[3/3] Sent bike data " + i + "/" + (max - 1));
+					String bike1 = (bike1Start.x - (i / 10.0)) + ":" + (bike1Start.y);
+					String bike2 = (bike2Start.x + (i / 10.0)) + ":" + (bike2Start.y);
 					OUTPUT.println(InboundPacketType.UPDATE.ordinal() + "\n" + i + "|2|" + bike1 + "|" + bike2);
 					OUTPUT.flush();
 					try {
