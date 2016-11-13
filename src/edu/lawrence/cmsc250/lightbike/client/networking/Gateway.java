@@ -109,12 +109,12 @@ public enum Gateway
 				}
 				
 				bike1Start = new Point2D(bike1Start.x + (max / 10.0), bike1Start.y);
-				bike2Start = new Point2D(bike2Start.x - (max / 10.0), bike1Start.y);
+				bike2Start = new Point2D(bike2Start.x - (max / 10.0), bike2Start.y);
 				
 				{ //Turn 1
 					System.out.println("[1.5/3] Sent bike turn data 1/2");
-					String bike1 = (bike1Start.x) + ":" + (bike1Start.y) + ">" + (bike1Start.x) + ":" + (bike1Start.y) + ">" + Direction.DOWN.toInt();
-					String bike2 = (bike2Start.x) + ":" + (bike2Start.y) + ">" + (bike2Start.x) + ":" + (bike2Start.y) + ">" + Direction.UP.toInt();
+					String bike1 = (bike1Start.x) + ":" + (bike1Start.y) + ">" + Direction.DOWN.toInt() + ">" + (bike1Start.x) + ":" + (bike1Start.y);
+					String bike2 = (bike2Start.x) + ":" + (bike2Start.y) + ">" + Direction.UP.toInt() + ">" + (bike2Start.x) + ":" + (bike2Start.y);
 					OUTPUT.println(InboundPacketType.UPDATE.ordinal() + "\n" + (++packet) + "|2|" + bike1 + "|" + bike2);
 					OUTPUT.flush();
 					try {
@@ -134,12 +134,12 @@ public enum Gateway
 				}
 				
 				bike1Start = new Point2D(bike1Start.x, bike1Start.y + ((max / 2) / 10.0));
-				bike2Start = new Point2D(bike2Start.x, bike1Start.y - ((max / 2) / 10.0));
+				bike2Start = new Point2D(bike2Start.x, bike2Start.y - ((max / 2) / 10.0));
 				
 				{ //Turn 2
 					System.out.println("[2.5/3] Sent bike turn data 2/2");
-					String bike1 = (bike1Start.x) + ":" + (bike1Start.y) + ">" + (bike1Start.x) + ":" + (bike1Start.y) + ">" + Direction.LEFT.toInt();
-					String bike2 = (bike2Start.x) + ":" + (bike2Start.y) + ">" + (bike2Start.x) + ":" + (bike2Start.y) + ">" + Direction.RIGHT.toInt();
+					String bike1 = (bike1Start.x) + ":" + (bike1Start.y) + ">" + Direction.LEFT.toInt() + ">" + (bike1Start.x) + ":" + (bike1Start.y);
+					String bike2 = (bike2Start.x) + ":" + (bike2Start.y) + ">" + Direction.RIGHT.toInt() + ">" + (bike2Start.x) + ":" + (bike2Start.y);
 					OUTPUT.println(InboundPacketType.UPDATE.ordinal() + "\n" + (++packet) + "|2|" + bike1 + "|" + bike2);
 					OUTPUT.flush();
 					try {

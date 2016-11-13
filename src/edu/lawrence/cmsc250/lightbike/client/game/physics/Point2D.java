@@ -10,8 +10,11 @@ import static edu.lawrence.cmsc250.lightbike.client.game.Constants.GRID_SCALE;
  */
 public class Point2D
 {
+	/** The bare string format to match a Point2D object */
+	public static final String POINT_STRING_FORMAT = "-?\\d+(\\.\\d+)?:-?\\d+(\\.\\d+)?";
+	
 	/** The pattern to validate the String passed into {@link #Point2D(String)} */
-	public static final Pattern POINT_STRING_FORMAT = Pattern.compile("^-?\\d+(\\.\\d+)?:-?\\d+(\\.\\d+)?$");
+	public static final Pattern POINT_STRING_FORMAT_PATTERN = Pattern.compile("^" + POINT_STRING_FORMAT + "$");
 	
 	/** The X position of this point */
 	public final double x;
@@ -27,7 +30,7 @@ public class Point2D
 	{
 		// Point format:
 		// {x}:{y}
-		if (!POINT_STRING_FORMAT.matcher(loadFrom).matches())
+		if (!POINT_STRING_FORMAT_PATTERN.matcher(loadFrom).matches())
 			throw new IllegalArgumentException("Expected form '{double}:{double}' got '" + loadFrom + "'");
 		
 		String[] data = loadFrom.split(":");

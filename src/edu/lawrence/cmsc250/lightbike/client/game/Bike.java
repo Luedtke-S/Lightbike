@@ -14,7 +14,7 @@ import static edu.lawrence.cmsc250.lightbike.client.game.Constants.START_OFFSET;
 public class Bike
 {
 	/** The pattern to validate the String passed into {@link #updateFrom(String)} */
-	public static final Pattern BIKE_STRING_FORMAT = Pattern.compile(Point2D.POINT_STRING_FORMAT + "(>\\d+>" + Point2D.POINT_STRING_FORMAT + ")?");
+	public static final Pattern BIKE_STRING_FORMAT = Pattern.compile("^" + Point2D.POINT_STRING_FORMAT + "(>\\d+>" + Point2D.POINT_STRING_FORMAT + ")?$");
 	
 	/** Player 1 - Starts bottom-left moving right  --  color: red */
 	public static final Bike bike1 = new Bike(new Point2D(-1 * START_OFFSET, -1 * START_OFFSET), Direction.RIGHT, BikeColor.RED);
@@ -26,7 +26,7 @@ public class Bike
 	public static final Bike bike4 = new Bike(new Point2D(-1 * START_OFFSET, START_OFFSET), Direction.DOWN, BikeColor.YELLOW);
 	
 	/** How many players there are */
-	public static int bikeCount = -1;
+	public static int bikeCount = 2; //TODO: SET BACK TO -1
 	
 	/** The color of the bike */
 	public final BikeColor color;
@@ -97,20 +97,23 @@ public class Bike
 	/**
 	 * Update this bike from the given String
 	 *
-	 * @param updateFrom The string to update from - MUST EITHER BE OF FORMAT {location} OR {location}>{turn}>{direction}
+	 * @param updateFrom The string to update from - MUST EITHER BE OF FORMAT {location} OR {location}>{direction}>{turn}
 	 */
 	public void updateFrom(String updateFrom)
 	{
 		// Bike format:
-		// {location}>{turn?}>{direction?}
+		// {location}>{direction?}>{turn?}
 		if (!BIKE_STRING_FORMAT.matcher(updateFrom).matches())
-			throw new IllegalArgumentException("Expected format '{location}' or '{location}>{turn}>{direction}' but got '" + updateFrom + "'");
+			throw new IllegalArgumentException("Expected format '{location}' or '{location}>{direction}>{turn}' but got '" + updateFrom + "'");
 		
 		String[] data = updateFrom.split(">");
 		this.location = new Point2D(data[0]);
 		if (data.length == 3) {
-			this.path.add(new Point2D(data[1]));
-			this.direction = Direction.fromInt(Integer.parseInt(data[2]));
+			Direction newDirection = Direction.fromInt(Integer.parseInt(data[1]));
+			if (newDirection != this.direction) {
+				this.path.add(new Point2D(data[2]));
+				this.direction = newDirection;
+			}
 		}
 	}
 	
