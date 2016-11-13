@@ -31,7 +31,7 @@ public class Bike
 	/** The color of the bike */
 	public final BikeColor color;
 	/** The path the bike has followed - each point is a place the bike turned */
-	public final List<Point2D> path = new ArrayList<>();
+	private final List<Point2D> path = new ArrayList<>();
 	/** The current location of the bike */
 	private Point2D location;
 	/** The direction the bike is moving */
@@ -92,6 +92,16 @@ public class Bike
 	public Direction getDirection()
 	{
 		return direction;
+	}
+	
+	/**
+	 * Get the path the bike has followed
+	 *
+	 * @return The path the bike has followed
+	 */
+	public Point2D[] getPath()
+	{
+		return path.toArray(new Point2D[path.size()]);
 	}
 	
 	/**
