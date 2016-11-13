@@ -3,6 +3,7 @@ package edu.lawrence.cmsc250.lightbike.client.game.physics;
 import java.util.regex.Pattern;
 
 import edu.lawrence.cmsc250.lightbike.client.game.Constants;
+import static edu.lawrence.cmsc250.lightbike.client.game.Constants.GRID_SCALE;
 
 /**
  * @author thislooksfun
@@ -53,7 +54,9 @@ public class Point2D
 	 */
 	public Point2D toGraphicsPosition()
 	{
-		return new Point2D(this.x + (Constants.GRID_SIZE / 2), this.y + (Constants.GRID_SIZE / 2));
+		double gX = this.x + (Constants.GRID_SIZE / 2.0);
+		double gY = this.y + (Constants.GRID_SIZE / 2.0);
+		return new Point2D(gX * GRID_SCALE, gY * GRID_SCALE);
 	}
 	
 	@Override
