@@ -26,7 +26,7 @@ public class Bike
 	public static final Bike bike4 = new Bike(new Point2D(-1 * START_OFFSET, START_OFFSET), Direction.DOWN, BikeColor.YELLOW);
 	
 	/** How many players there are */
-	public static int bikeCount = 2;
+	public static int bikeCount = -1;
 	
 	/** The color of the bike */
 	public final BikeColor color;
