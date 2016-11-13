@@ -5,6 +5,12 @@ package edu.lawrence.cmsc250.lightbike.client.game;
  */
 public class Constants
 {
+	/** The size of the game grid */
 	public static final int GRID_SIZE = 60;
-	public static final int START_OFFSET = GRID_SIZE - 4;
+	/** How far from the edges the bikes should start */
+	public static final int START_OFFSET = (GRID_SIZE / 2) - 4;
+	
+	public static final double SCREEN_SIZE = 600;
+	
+	public static final double GRID_SCALE = SCREEN_SIZE/GRID_SIZE;
 }

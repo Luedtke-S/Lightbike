@@ -7,9 +7,13 @@ package edu.lawrence.cmsc250.lightbike.client.game.physics;
  */
 public enum Direction
 {
+	/** The upwards direction */
 	UP,
+	/** The rightwards direction */
 	RIGHT,
+	/** The downwards direction */
 	DOWN,
+	/** The leftwards direction */
 	LEFT;
 	
 	/**

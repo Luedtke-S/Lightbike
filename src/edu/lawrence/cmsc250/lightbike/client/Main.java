@@ -1,5 +1,6 @@
 package edu.lawrence.cmsc250.lightbike.client;
 
+import edu.lawrence.cmsc250.lightbike.client.graphics.panes.Grid;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,7 +18,10 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("graphics/arena.fxml"));
         primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        Scene scene = new Scene(root);
+        primaryStage.setScene(scene);
         primaryStage.show();
+
+        scene.setOnKeyPressed((evt)-> Grid.handleKeyEvent(evt));
     }
 }
