@@ -1,5 +1,7 @@
 package edu.lawrence.cmsc250.lightbike.client.game;
 
+import javafx.scene.paint.Color;
+
 /**
  * @author thislooksfun
  */
@@ -13,4 +15,9 @@ public class Constants
 	public static final double SCREEN_SIZE = 600;
 	
 	public static final double GRID_SCALE = SCREEN_SIZE/GRID_SIZE;
+	
+	public static final Color RED = new Color(1, 0, 0, 1);
+	public static final Color BLUE = new Color(0, 0, 1, 1);
+	public static final Color GREEN = new Color(0, 1, 0, 1);
+	public static final Color YELLOW = new Color(1, 1, 0, 1);
 }

@@ -1,10 +1,10 @@
 package edu.lawrence.cmsc250.lightbike.client.graphics.panes;
 
 import edu.lawrence.cmsc250.lightbike.client.game.Bike;
+import edu.lawrence.cmsc250.lightbike.client.game.Constants;
 import edu.lawrence.cmsc250.lightbike.client.game.physics.Direction;
 import edu.lawrence.cmsc250.lightbike.client.game.physics.Point2D;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import static edu.lawrence.cmsc250.lightbike.client.game.physics.Direction.*;
@@ -15,10 +15,7 @@ import static edu.lawrence.cmsc250.lightbike.client.game.physics.Direction.*;
 
 public class BikePane extends Pane
 {
-	private static final Color RED = new Color(1, 0, 0, 1);
-	private static final Color BLUE = new Color(0, 0, 1, 1);
-	private static final Color GREEN = new Color(0, 1, 0, 1);
-	private static final Color YELLOW = new Color(1, 1, 0, 1);
+	
 	private final Bike bike;
 	Rectangle playerBike = new Rectangle(10, 15);
 	private int trailLength = 0;
@@ -37,16 +34,16 @@ public class BikePane extends Pane
 		playerBike.setTranslateY(-playerBike.getHeight() / 2);
 		switch (bike.color) {
 			case BLUE:
-				playerBike.setFill(BLUE);
+				playerBike.setFill(Constants.BLUE);
 				break;
 			case YELLOW:
-				playerBike.setFill(YELLOW);
+				playerBike.setFill(Constants.YELLOW);
 				break;
 			case GREEN:
-				playerBike.setFill(GREEN);
+				playerBike.setFill(Constants.GREEN);
 				break;
 			case RED:
-				playerBike.setFill(RED);
+				playerBike.setFill(Constants.RED);
 		}
 		
 		getChildren().add(playerBike);
