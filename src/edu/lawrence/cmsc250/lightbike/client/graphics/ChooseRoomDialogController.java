@@ -1,12 +1,13 @@
 package edu.lawrence.cmsc250.lightbike.client.graphics;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 
 import edu.lawrence.cmsc250.lightbike.client.networking.Gateway;
 import edu.lawrence.cmsc250.lightbike.client.networking.Room;
 import edu.lawrence.cmsc250.lightbike.client.networking.RoomListEvent;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -23,18 +24,23 @@ public class ChooseRoomDialogController
 	@FXML
 	private Button joinButton;
 	@FXML
-	private ListView roomView;
+	private ListView<Room> roomView;
 	
-	private ArrayList<Room> rooms = new ArrayList<>();
+	private ObservableList<Room> rooms = FXCollections.observableArrayList();
 	
 	@FXML
 	public void initialize()
 	{
+		roomView.setCellFactory(new Room.CellFactory());
+//		roomView.getSelectionModel().selectedItemProperty().addListener((ov, obj, newItem) -> roomSelected(newItem));
+		
 		Gateway.requestRooms();
 		Gateway.addEventHandler(event -> {
 			rooms.clear();
 			Collections.addAll(rooms, event.rooms);
 		}, RoomListEvent.class);
+		
+		roomView.setItems(rooms);
 	}
 	
 	@FXML
