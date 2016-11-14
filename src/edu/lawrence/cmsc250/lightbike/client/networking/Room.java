@@ -14,18 +14,18 @@ public class Room
 	private static final int player4ReadyMask = 1 << 2;
 	
 	/** The ID of the room */
-	final int id;
+	public final int id;
 	/** The number of occupants of the room */
-	final int occupants;
+	public final int occupants;
 	/** The display name of the room */
-	final String name;
+	public final String name;
 	
 	/** Whether or not player2 is ready */
-	final boolean player2Ready;
+	public final boolean player2Ready;
 	/** Whether or not player3 is ready */
-	final boolean player3Ready;
+	public final boolean player3Ready;
 	/** Whether or not player4 is ready */
-	final boolean player4Ready;
+	public final boolean player4Ready;
 	
 	/**
 	 * Make a new Room object
