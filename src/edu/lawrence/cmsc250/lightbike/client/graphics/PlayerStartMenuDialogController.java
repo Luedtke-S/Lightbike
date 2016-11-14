@@ -59,7 +59,7 @@ public class PlayerStartMenuDialogController
 		
 		if (e.roomClosed) {
 			try {
-				Stage parent = (Stage)readyLabel1.getScene().getWindow();
+				Stage parent = (Stage)readyButton.getScene().getWindow();
 				
 				FXMLLoader loader = new FXMLLoader(getClass().getResource("chooseRoomDialog.fxml"));
 				Parent root = (Parent)loader.load();
@@ -67,48 +67,49 @@ public class PlayerStartMenuDialogController
 				parent.setScene(scene);
 				parent.setTitle("Choose Room");
 			} catch (Exception ex) {
-				System.out.println(ex);
+				ex.printStackTrace();
 			}
-		}
-		
-		if (e.room.occupants == 2) {
-			if (e.room.player2Ready) {
-				readyLabel2.setText("READY");
-				playersReady2 += 1;
-			}
-		}
-		
-		if (e.room.occupants == 3) {
-			if (e.room.player2Ready) {
-				readyLabel2.setText("READY");
-				playersReady3 += 1;
+		} else {
+			
+			if (e.room.occupants == 2) {
+				if (e.room.player2Ready) {
+					readyLabel2.setText("READY");
+					playersReady2 += 1;
+				}
 			}
 			
-			if (e.room.player2Ready) {
-				readyLabel2.setText("READY");
-				playersReady3 += 1;
-			}
-		}
-		
-		if (e.room.occupants == 4) {
-			if (e.room.player2Ready) {
-				readyLabel2.setText("READY");
-				playersReady4 += 1;
-			}
-			
-			if (e.room.player2Ready) {
-				readyLabel2.setText("READY");
-				playersReady4 += 1;
+			if (e.room.occupants == 3) {
+				if (e.room.player2Ready) {
+					readyLabel2.setText("READY");
+					playersReady3 += 1;
+				}
+				
+				if (e.room.player2Ready) {
+					readyLabel2.setText("READY");
+					playersReady3 += 1;
+				}
 			}
 			
-			if (e.room.player4Ready) {
-				readyLabel4.setText("READY");
-				playersReady4 += 1;
+			if (e.room.occupants == 4) {
+				if (e.room.player2Ready) {
+					readyLabel2.setText("READY");
+					playersReady4 += 1;
+				}
+				
+				if (e.room.player2Ready) {
+					readyLabel2.setText("READY");
+					playersReady4 += 1;
+				}
+				
+				if (e.room.player4Ready) {
+					readyLabel4.setText("READY");
+					playersReady4 += 1;
+				}
 			}
-		}
-		
-		if (playersReady2 == 2 || playersReady3 == 3 || playersReady4 == 4) {
-			readyButton.setDisable(false);
+			
+			if (playersReady2 == 2 || playersReady3 == 3 || playersReady4 == 4) {
+				readyButton.setDisable(false);
+			}
 		}
 	}
 	

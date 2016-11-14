@@ -34,7 +34,7 @@ public class ChooseRoomDialogController
 	public void initialize()
 	{
 		roomView.setCellFactory(new Room.CellFactory());
-//		roomView.getSelectionModel().selectedItemProperty().addListener((ov, obj, newItem) -> roomSelected(newItem));
+		roomView.getSelectionModel().selectedItemProperty().addListener((ov, obj, newItem) -> roomSelected(newItem));
 		
 		Gateway.requestRooms();
 		Gateway.addEventHandler(event -> {
@@ -48,6 +48,7 @@ public class ChooseRoomDialogController
 	@FXML
 	public void pressJoin() throws IOException
 	{
+		Gateway.sendJoinRoom(roomView.getSelectionModel().getSelectedItem().id);
 		Stage parent = (Stage)joinButton.getScene().getWindow();
 		
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("playerStartMenuDialog.fxml"));
@@ -87,5 +88,10 @@ public class ChooseRoomDialogController
 			PlayerStartMenuDialogController controller = (PlayerStartMenuDialogController)loader.getController();
 			controller.setPlayer1();
 		}
+	}
+	
+	void roomSelected(Room r)
+	{
+		joinButton.setDisable(r == null);
 	}
 }
