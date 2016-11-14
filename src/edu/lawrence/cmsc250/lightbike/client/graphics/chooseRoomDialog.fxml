@@ -13,7 +13,7 @@
     <bottom>
         <HBox alignment="CENTER" prefHeight="31.0" prefWidth="481.0" spacing="10.0" BorderPane.alignment="CENTER">
             <children>
-                <Button fx:id="joinButton" mnemonicParsing="false" onAction="#pressJoin" text="Join" />
+                <Button fx:id="joinButton" disable="true" mnemonicParsing="false" onAction="#pressJoin" text="Join" />
                 <Button mnemonicParsing="false" onAction="#pressRefresh" text="Refresh" />
                 <Button mnemonicParsing="false" onAction="#pressCreate" text="Create">
                     <HBox.margin>

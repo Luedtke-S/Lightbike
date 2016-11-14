@@ -70,7 +70,7 @@ public class ChooseRoomDialogController
 		Parent root = (Parent)loader.load();
 		Scene scene = new Scene(root);
 		parent.setScene(scene);
-		parent.setTitle("Ready Up Bitch");
+		parent.setTitle("Ready Up");
 		
 		PlayerStartMenuDialogController controller = (PlayerStartMenuDialogController)loader.getController();
 		controller.setPlayer1();
