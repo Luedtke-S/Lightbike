@@ -65,8 +65,10 @@ public class BikePane extends Pane
 		Point2D screenLoco = bike.getLocation().toGraphicsPosition();
 		
 		Direction dir = bike.getDirection();
-		playerBike.setX(screenLoco.x + (dir == RIGHT ? -playerBike.getWidth() / 2 : (dir == LEFT ? playerBike.getWidth() / 2 : 0)));
-		playerBike.setY(screenLoco.y + (dir == DOWN ? -playerBike.getHeight() / 2 : (dir == UP ? playerBike.getHeight() / 2 : 0)));
+		double xOffset = (dir == RIGHT ? -playerBike.getWidth() / 2 : (dir == LEFT ? playerBike.getWidth() / 2 : 0));
+		double yOffset = (dir == DOWN ? -playerBike.getHeight() / 2 : (dir == UP ? playerBike.getHeight() / 2 : 0));
+		playerBike.setX(screenLoco.x + xOffset);
+		playerBike.setY(screenLoco.y + yOffset);
 		
 		playerBike.setRotate(90 * bike.getDirection().toInt());
 		Point2D[] path = bike.getPath();
@@ -74,14 +76,14 @@ public class BikePane extends Pane
 			Point2D last = path[path.length - 1].toGraphicsPosition();
 			currentTrail.setEndX(last.x);
 			currentTrail.setEndY(last.y);
-			currentTrail = new Line(last.x, last.y, screenLoco.x, screenLoco.y);
+			currentTrail = new Line(last.x, last.y, screenLoco.x + xOffset, screenLoco.y + yOffset);
 //			currentTrail.setStroke(playerBike.getFill());
 			currentTrail.setStrokeWidth(3);
 			getChildren().add(currentTrail);
 			trailLength++;
 		} else {
-			currentTrail.setEndX(screenLoco.x);
-			currentTrail.setEndY(screenLoco.y);
+			currentTrail.setEndX(screenLoco.x + xOffset);
+			currentTrail.setEndY(screenLoco.y + yOffset);
 		}
 	}
 }
