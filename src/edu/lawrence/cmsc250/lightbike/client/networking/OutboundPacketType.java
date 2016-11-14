@@ -17,7 +17,9 @@ enum OutboundPacketType
 	LEAVE_ROOM,
 	/** -- 4 -- A request to change the current ready state */
 	READY_STATE,
-	/** -- 5 -- A control update - the user pressed a button */
+	/** -- 5 -- A request to start the game */
+	START_GAME,
+	/** -- 6 -- A control update - the user pressed a button */
 	CONTROL;
 	
 	/**

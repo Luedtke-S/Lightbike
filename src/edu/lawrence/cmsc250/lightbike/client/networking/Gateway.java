@@ -205,6 +205,12 @@ public enum Gateway
 		sendPacket(OutboundPacketType.READY_STATE, state ? 1 : 0);
 	}
 	
+	/** Starts the game */
+	public static void startGame()
+	{
+		sendPacket(OutboundPacketType.START_GAME);
+	}
+	
 	/**
 	 * Send a direction press to the server -- MUST BE {@link Direction#LEFT} or {@link Direction#RIGHT}
 	 *
