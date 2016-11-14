@@ -11,23 +11,23 @@ public class Room
 {
 	/** The ID of the room */
 	final int id;
-	/** The display name of the room */
-	final String name;
 	/** The number of occupants of the room */
 	final int occupants;
+	/** The display name of the room */
+	final String name;
 	
 	/**
 	 * Make a new Room object
 	 *
 	 * @param id        The ID of the room
-	 * @param name      The display name of the room
 	 * @param occupants The number of occupants of the room
+	 * @param name      The display name of the room
 	 */
-	Room(int id, String name, int occupants)
+	Room(int id, int occupants, String name)
 	{
 		this.id = id;
-		this.name = name;
 		this.occupants = occupants;
+		this.name = name;
 	}
 	
 	/** The class used to construct the list of cells in a {@link ListView} */

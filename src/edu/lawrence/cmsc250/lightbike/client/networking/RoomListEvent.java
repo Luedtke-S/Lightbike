@@ -13,7 +13,7 @@ public class RoomListEvent implements PacketEvent
 		Room[] rs = new Room[list.length];
 		for (int i = 0; i < list.length; i++) {
 			String[] roomData = list[i].split(":");
-			rs[i] = new Room(Integer.parseInt(roomData[0]), roomData[1]);
+			rs[i] = new Room(Integer.parseInt(roomData[0]), Integer.parseInt(roomData[1]), roomData[2]);
 		}
 		rooms = rs;
 	}

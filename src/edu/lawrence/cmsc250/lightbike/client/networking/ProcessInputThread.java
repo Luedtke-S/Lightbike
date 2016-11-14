@@ -86,7 +86,7 @@ final class ProcessInputThread extends Thread
 					}
 					case ROOM_LIST: {
 						// Packet format
-						// {room1ID}:{room1Name},{room2ID}:{room2Name},...,{roomNID}:{roomNName}
+						// {room1ID}:{room1Occupants}:{room1Name},{room2ID}:{room2Occupants}:{room2Name},...,{roomNID}:{roomNOccupants}:{roomNName}
 						String data = input.readLine();
 						
 						//noinspection unchecked
