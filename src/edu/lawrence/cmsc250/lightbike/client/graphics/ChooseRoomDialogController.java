@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Optional;
 
 import edu.lawrence.cmsc250.lightbike.client.networking.Gateway;
+import edu.lawrence.cmsc250.lightbike.client.networking.JoinRoomSuccessEvent;
 import edu.lawrence.cmsc250.lightbike.client.networking.Room;
 import edu.lawrence.cmsc250.lightbike.client.networking.RoomListEvent;
 import javafx.collections.FXCollections;
@@ -37,33 +38,38 @@ public class ChooseRoomDialogController
 		roomView.getSelectionModel().selectedItemProperty().addListener((ov, obj, newItem) -> roomSelected(newItem));
 		
 		Gateway.requestRooms();
-		Gateway.addEventHandler(event -> {
+		Gateway.setEventHandler(event -> {
 			rooms.clear();
 			Collections.addAll(rooms, event.rooms);
 		}, RoomListEvent.class);
+		Gateway.setEventHandler(event -> {
+			try {
+				Stage parent = (Stage)joinButton.getScene().getWindow();
+				
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("playerStartMenuDialog.fxml"));
+				Parent root = null;
+				root = loader.load();
+				Scene scene = new Scene(root);
+				parent.setScene(scene);
+				parent.setTitle("Ready Up Bitch");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}, JoinRoomSuccessEvent.class);
 		
 		roomView.setItems(rooms);
 	}
 	
 	@FXML
-	public void pressJoin() throws IOException
+	public void pressJoin()
 	{
 		Gateway.sendJoinRoom(roomView.getSelectionModel().getSelectedItem().id);
-		Stage parent = (Stage)joinButton.getScene().getWindow();
-		
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("playerStartMenuDialog.fxml"));
-		Parent root = (Parent)loader.load();
-		Scene scene = new Scene(root);
-		parent.setScene(scene);
-		parent.setTitle("Ready Up Bitch");
 	}
 	
 	@FXML
 	public void pressRefresh()
 	{
-		if (rooms.size() > 0) {
-			joinButton.setDisable(false);
-		}
+		Gateway.requestRooms();
 	}
 	
 	@FXML
@@ -80,17 +86,17 @@ public class ChooseRoomDialogController
 			Stage parent = (Stage)joinButton.getScene().getWindow();
 			
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("playerStartMenuDialog.fxml"));
-			Parent root = (Parent)loader.load();
+			Parent root = loader.load();
 			Scene scene = new Scene(root);
 			parent.setScene(scene);
 			parent.setTitle("Ready Up");
 			
-			PlayerStartMenuDialogController controller = (PlayerStartMenuDialogController)loader.getController();
+			PlayerStartMenuDialogController controller = loader.getController();
 			controller.setPlayer1();
 		}
 	}
 	
-	void roomSelected(Room r)
+	private void roomSelected(Room r)
 	{
 		joinButton.setDisable(r == null);
 	}

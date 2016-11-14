@@ -51,7 +51,7 @@ public class PlayerStartMenuDialogController
 		playerLabel3.setTextFill(Constants.GREEN);
 		playerLabel4.setTextFill(Constants.YELLOW);
 		
-		Gateway.addEventHandler(event -> gameUpdated(event), RoomUpdateEvent.class);
+		Gateway.setEventHandler(event -> gameUpdated(event), RoomUpdateEvent.class);
 	}
 	
 	public void gameUpdated(RoomUpdateEvent e)

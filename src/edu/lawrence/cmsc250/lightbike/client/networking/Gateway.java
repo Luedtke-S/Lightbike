@@ -5,11 +5,7 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 
-import edu.lawrence.cmsc250.lightbike.client.game.Constants;
 import edu.lawrence.cmsc250.lightbike.client.game.physics.Direction;
-import edu.lawrence.cmsc250.lightbike.client.game.physics.Point2D;
-import static edu.lawrence.cmsc250.lightbike.client.game.Bike.bike1;
-import static edu.lawrence.cmsc250.lightbike.client.game.Bike.bike2;
 
 /**
  * @author thislooksfun
@@ -74,91 +70,20 @@ public enum Gateway
 	 * @param clazz   The event class for which this handler should be registered
 	 * @param <T>     The type of the event class
 	 */
-	public static <T extends PacketEvent> void addEventHandler(PacketEventHandler<T> handler, Class<T> clazz)
+	public static <T extends PacketEvent> void setEventHandler(PacketEventHandler<T> handler, Class<T> clazz)
 	{
 		EVENT_HANDLER_MAP.put(clazz, handler);
-		
-		if (clazz.equals(GameUpdateEvent.class)) {
-			new Thread(() -> {
-				try {
-					Thread.sleep(2000);
-				} catch (InterruptedException ignored) {}
-				
-				System.out.println("Starting arbitrary bike data");
-				
-				Point2D bike1Start = bike1.getLocation();
-				Point2D bike2Start = bike2.getLocation();
-				
-				int gap = (Constants.GRID_SIZE / 2) - Constants.START_OFFSET;
-				int max = Constants.GRID_SIZE - gap * 2;
-				max *= 10;
-				
-				int packet = 0;
-				
-				for (int i = 1; i <= max; i++) {
-					System.out.println("[1/3] Sent bike data " + i + "/" + (max - 1));
-					String bike1 = (bike1Start.x + (i / 10.0)) + ":" + (bike1Start.y);
-					String bike2 = (bike2Start.x - (i / 10.0)) + ":" + (bike2Start.y);
-					OUTPUT.println(InboundPacketType.UPDATE.ordinal() + "\n" + (++packet) + "|2|" + bike1 + "|" + bike2);
-					OUTPUT.flush();
-					try {
-						Thread.sleep(1000 / 60);
-					} catch (InterruptedException ignored) {}
-				}
-				
-				bike1Start = new Point2D(bike1Start.x + (max / 10.0), bike1Start.y);
-				bike2Start = new Point2D(bike2Start.x - (max / 10.0), bike2Start.y);
-				
-				{ //Turn 1
-					System.out.println("[1.5/3] Sent bike turn data 1/2");
-					String bike1 = (bike1Start.x) + ":" + (bike1Start.y) + ">" + Direction.DOWN.toInt() + ">" + (bike1Start.x) + ":" + (bike1Start.y);
-					String bike2 = (bike2Start.x) + ":" + (bike2Start.y) + ">" + Direction.UP.toInt() + ">" + (bike2Start.x) + ":" + (bike2Start.y);
-					OUTPUT.println(InboundPacketType.UPDATE.ordinal() + "\n" + (++packet) + "|2|" + bike1 + "|" + bike2);
-					OUTPUT.flush();
-					try {
-						Thread.sleep(1000 / 60);
-					} catch (InterruptedException ignored) {}
-				}
-				
-				for (int i = 1; i <= max / 2; i++) {
-					System.out.println("[2/3] Sent bike data " + i + "/" + (max - 1));
-					String bike1 = (bike1Start.x) + ":" + (bike1Start.y + (i / 10.0));
-					String bike2 = (bike2Start.x) + ":" + (bike2Start.y - (i / 10.0));
-					OUTPUT.println(InboundPacketType.UPDATE.ordinal() + "\n" + (++packet) + "|2|" + bike1 + "|" + bike2);
-					OUTPUT.flush();
-					try {
-						Thread.sleep(1000 / 60);
-					} catch (InterruptedException ignored) {}
-				}
-				
-				bike1Start = new Point2D(bike1Start.x, bike1Start.y + ((max / 2) / 10.0));
-				bike2Start = new Point2D(bike2Start.x, bike2Start.y - ((max / 2) / 10.0));
-				
-				{ //Turn 2
-					System.out.println("[2.5/3] Sent bike turn data 2/2");
-					String bike1 = (bike1Start.x) + ":" + (bike1Start.y) + ">" + Direction.LEFT.toInt() + ">" + (bike1Start.x) + ":" + (bike1Start.y);
-					String bike2 = (bike2Start.x) + ":" + (bike2Start.y) + ">" + Direction.RIGHT.toInt() + ">" + (bike2Start.x) + ":" + (bike2Start.y);
-					OUTPUT.println(InboundPacketType.UPDATE.ordinal() + "\n" + (++packet) + "|2|" + bike1 + "|" + bike2);
-					OUTPUT.flush();
-					try {
-						Thread.sleep(1000 / 60);
-					} catch (InterruptedException ignored) {}
-				}
-				
-				for (int i = 1; i <= max; i++) {
-					System.out.println("[3/3] Sent bike data " + i + "/" + (max - 1));
-					String bike1 = (bike1Start.x - (i / 10.0)) + ":" + (bike1Start.y);
-					String bike2 = (bike2Start.x + (i / 10.0)) + ":" + (bike2Start.y);
-					OUTPUT.println(InboundPacketType.UPDATE.ordinal() + "\n" + (++packet) + "|2|" + bike1 + "|" + bike2);
-					OUTPUT.flush();
-					try {
-						Thread.sleep(1000 / 60);
-					} catch (InterruptedException ignored) {}
-				}
-				
-				OUTPUT.close();
-			}).start();
-		}
+	}
+	
+	/**
+	 * Unregister an event handler
+	 *
+	 * @param clazz The event class to unregister
+	 * @param <T>   The type of the event class
+	 */
+	public static <T extends PacketEvent> void removeEventHandler(Class<T> clazz)
+	{
+		EVENT_HANDLER_MAP.remove(clazz);
 	}
 	
 	/** Request the list of rooms from the server */

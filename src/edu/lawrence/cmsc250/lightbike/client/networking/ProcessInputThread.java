@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 import edu.lawrence.cmsc250.lightbike.client.game.Bike;
-import javafx.application.Platform;
 
 /**
  * The thread responsible for communicating with the server
@@ -110,6 +109,23 @@ final class ProcessInputThread extends Thread
 						break;
 					}
 					case RESPONSE: {
+						// Packet format
+						// {open}:{ID}:{occupants}:{readyList}:{name}
+						String[] data = input.readLine().split(":", 2);
+						
+						switch (data[0]) {
+							case "join_room": {
+								if (Boolean.parseBoolean(data[1])) {
+									//noinspection unchecked
+									PacketEventHandler<JoinRoomSuccessEvent> handler = Gateway.getHandlerForClass(JoinRoomSuccessEvent.class);
+									if (handler == null)
+										return; //There is no handler for this event, don't bother
+									
+									handler.postEvent(new JoinRoomSuccessEvent());
+								}
+								break;
+							}
+						}
 						break;
 					}
 					case INVALID: {

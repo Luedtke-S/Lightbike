@@ -17,7 +17,7 @@ public class Controller
 	{
 		Grid grid = new Grid();
 		
-		Gateway.addEventHandler((evt) -> grid.draw(), GameUpdateEvent.class);
+		Gateway.setEventHandler((evt) -> grid.draw(), GameUpdateEvent.class);
 		
 		gridWindow.getChildren().add(grid);
 		gridWindow.requestFocus();
