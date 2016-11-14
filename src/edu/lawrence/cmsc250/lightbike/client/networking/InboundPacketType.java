@@ -13,7 +13,9 @@ enum InboundPacketType
 	UPDATE,
 	/** -- 2 -- The list of the rooms */
 	ROOM_LIST,
-	/** -- 3 -- Respond to client request */
+	/** -- 3 -- The room's state has changed (closed, joined, left, ready, unready) */
+	ROOM_UPDATE,
+	/** -- 4 -- Respond to client request */
 	RESPONSE,
 	/** None of the other types match, thus it's invalid */
 	INVALID;
@@ -35,6 +37,8 @@ enum InboundPacketType
 			case 2:
 				return ROOM_LIST;
 			case 3:
+				return ROOM_UPDATE;
+			case 4:
 				return RESPONSE;
 			default:
 				return INVALID;

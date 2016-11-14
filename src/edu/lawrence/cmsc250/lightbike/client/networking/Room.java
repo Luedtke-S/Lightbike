@@ -9,6 +9,10 @@ import javafx.util.Callback;
  */
 public class Room
 {
+	private static final int player2ReadyMask = 1;
+	private static final int player3ReadyMask = 1 << 1;
+	private static final int player4ReadyMask = 1 << 2;
+	
 	/** The ID of the room */
 	final int id;
 	/** The number of occupants of the room */
@@ -16,18 +20,30 @@ public class Room
 	/** The display name of the room */
 	final String name;
 	
+	/** Whether or not player2 is ready */
+	final boolean player2Ready;
+	/** Whether or not player3 is ready */
+	final boolean player3Ready;
+	/** Whether or not player4 is ready */
+	final boolean player4Ready;
+	
 	/**
 	 * Make a new Room object
 	 *
 	 * @param id        The ID of the room
+	 * @param readyMask The mast of which players are ready
 	 * @param occupants The number of occupants of the room
 	 * @param name      The display name of the room
 	 */
-	Room(int id, int occupants, String name)
+	Room(int id, int occupants, int readyMask, String name)
 	{
 		this.id = id;
 		this.occupants = occupants;
 		this.name = name;
+		
+		player2Ready = (readyMask & player2ReadyMask) > 0;
+		player3Ready = (readyMask & player3ReadyMask) > 0;
+		player4Ready = (readyMask & player4ReadyMask) > 0;
 	}
 	
 	/** The class used to construct the list of cells in a {@link ListView} */

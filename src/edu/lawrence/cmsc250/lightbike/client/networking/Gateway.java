@@ -273,7 +273,8 @@ public enum Gateway
 	 *
 	 * @return A {@link PacketEventHandler}, or {@code null} if none is registered for the given class
 	 */
-	static PacketEventHandler getHandlerForClass(Class clazz)
+	@SuppressWarnings("unchecked")
+	static <T extends PacketEvent> PacketEventHandler<T> getHandlerForClass(Class<T> clazz)
 	{
 		return EVENT_HANDLER_MAP.get(clazz);
 	}

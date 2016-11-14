@@ -86,7 +86,7 @@ final class ProcessInputThread extends Thread
 					}
 					case ROOM_LIST: {
 						// Packet format
-						// {room1ID}:{room1Occupants}:{room1Name},{room2ID}:{room2Occupants}:{room2Name},...,{roomNID}:{roomNOccupants}:{roomNName}
+						// {room1ID}:{room1Occupants}:{room1ReadyList}:{room1Name},{room2ID}:{room2Occupants}:{room2ReadyList}:{room2Name},...,{roomNID}:{roomNOccupants}:{roomNReadyList}:{roomNName}
 						String data = input.readLine();
 						
 						//noinspection unchecked
@@ -95,6 +95,19 @@ final class ProcessInputThread extends Thread
 							return; //There is no handler for this event, don't bother
 						
 						handler.handleEvent(new RoomListEvent(data));
+						break;
+					}
+					case ROOM_UPDATE: {
+						// Packet format
+						// {open}:{ID}:{occupants}:{readyList}:{name}
+						String data = input.readLine();
+						
+						//noinspection unchecked
+						PacketEventHandler<RoomUpdateEvent> handler = Gateway.getHandlerForClass(RoomUpdateEvent.class);
+						if (handler == null)
+							return; //There is no handler for this event, don't bother
+						
+						handler.handleEvent(new RoomUpdateEvent(data));
 						break;
 					}
 					case RESPONSE: {
