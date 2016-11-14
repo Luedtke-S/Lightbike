@@ -62,8 +62,17 @@ public class ChooseRoomDialogController
 	}
 	
 	@FXML
-	public void pressCreate()
+	public void pressCreate() throws IOException
 	{
+		Stage parent = (Stage)joinButton.getScene().getWindow();
 		
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("playerStartMenuDialog.fxml"));
+		Parent root = (Parent)loader.load();
+		Scene scene = new Scene(root);
+		parent.setScene(scene);
+		parent.setTitle("Ready Up Bitch");
+		
+		PlayerStartMenuDialogController controller = (PlayerStartMenuDialogController)loader.getController();
+		controller.setPlayer1();
 	}
 }
