@@ -51,10 +51,11 @@ final class ProcessInputThread extends Thread
 					break;
 				
 				switch (InboundPacketType.fromInt(Integer.parseInt(s))) {
-					case SETUP:
+					case SETUP: {
 						//TODO do setup
 						break;
-					case UPDATE:
+					}
+					case UPDATE: {
 						// Packet format
 						// {updatenumber}|{bikecount}|{bike1}|{bike2}|{bike3?}|{bike4?}
 						String[] data = input.readLine().split("\\|");
@@ -82,14 +83,29 @@ final class ProcessInputThread extends Thread
 						GameUpdateEvent event = new GameUpdateEvent(updateNumber);
 						Platform.runLater(() -> handler.handleEvent(event));
 						break;
-					case RESPONSE:
-						//TODO process response
+					}
+					case ROOM_LIST: {
+						// Packet format
+						// {room1ID}:{room1Name},{room2ID}:{room2Name},...,{roomNID}:{roomNName}
+						String data = input.readLine();
+						
+						//noinspection unchecked
+						PacketEventHandler<RoomListEvent> handler = Gateway.getHandlerForClass(RoomListEvent.class);
+						if (handler == null)
+							return; //There is no handler for this event, don't bother
+						
+						handler.handleEvent(new RoomListEvent(data));
 						break;
-					case INVALID:
+					}
+					case RESPONSE: {
+						break;
+					}
+					case INVALID: {
 						System.err.println("[SYSTEM] Invalid packet type '" + s + "' - flushing input to console...");
 						while (input.ready())
 							System.err.println(" >>  " + input.readLine());
 						break;
+					}
 				}
 			}
 		} catch (IOException | NumberFormatException e) {

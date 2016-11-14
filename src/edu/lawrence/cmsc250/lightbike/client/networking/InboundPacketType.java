@@ -11,7 +11,9 @@ enum InboundPacketType
 	SETUP,
 	/** -- 1 -- Update the game state */
 	UPDATE,
-	/** -- 2 -- Respond to client request */
+	/** -- 2 -- The list of the rooms */
+	ROOM_LIST,
+	/** -- 3 -- Respond to client request */
 	RESPONSE,
 	/** None of the other types match, thus it's invalid */
 	INVALID;
@@ -31,6 +33,8 @@ enum InboundPacketType
 			case 1:
 				return UPDATE;
 			case 2:
+				return ROOM_LIST;
+			case 3:
 				return RESPONSE;
 			default:
 				return INVALID;

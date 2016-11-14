@@ -163,6 +163,48 @@ public enum Gateway
 		}
 	}
 	
+	/** Request the list of rooms from the server */
+	public static void requestRooms()
+	{
+		sendPacket(OutboundPacketType.GET_ROOMS);
+	}
+	
+	/**
+	 * Create a new room
+	 *
+	 * @param name The name of the room to create
+	 */
+	public static void sendCreateRoom(String name)
+	{
+		sendPacket(OutboundPacketType.CREATE_ROOM, name);
+	}
+	
+	/**
+	 * Join a room
+	 *
+	 * @param id The id of the room to join
+	 */
+	public static void sendJoinRoom(int id)
+	{
+		sendPacket(OutboundPacketType.JOIN_ROOM, id);
+	}
+	
+	/** Leave the current room */
+	public static void sendLeaveRoom()
+	{
+		sendPacket(OutboundPacketType.LEAVE_ROOM);
+	}
+	
+	/**
+	 * Update the ready state
+	 *
+	 * @param state The new ready state
+	 */
+	public static void updateReadyState(boolean state)
+	{
+		sendPacket(OutboundPacketType.READY_STATE, state ? 1 : 0);
+	}
+	
 	/**
 	 * Send a direction press to the server -- MUST BE {@link Direction#LEFT} or {@link Direction#RIGHT}
 	 *
@@ -178,7 +220,19 @@ public enum Gateway
 	// <editor-fold desc="Send packet methods" defaultstate="collapsed">
 	
 	/**
-	 * Send a packet to the server
+	 * Send a packet to the server with no body
+	 *
+	 * @param packetType The type of packet to send
+	 */
+	private static void sendPacket(OutboundPacketType packetType)
+	{
+		System.out.println("Sending packet of type " + packetType.name());
+//		OUTPUT.println(packetType.toInt());
+//		OUTPUT.flush();
+	}
+	
+	/**
+	 * Send a packet to the server with an int body
 	 *
 	 * @param packetType The type of packet to send
 	 * @param packet     The packet data to send
@@ -192,7 +246,7 @@ public enum Gateway
 	}
 	
 	/**
-	 * Send a packet to the server
+	 * Send a packet to the server with a string body
 	 *
 	 * @param packetType The type of packet to send
 	 * @param packet     The packet data to send
