@@ -1,6 +1,7 @@
 package edu.lawrence.cmsc250.lightbike.client.networking;
 
 import java.io.*;
+import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,44 +28,41 @@ public enum Gateway
 	
 	// Establish the connection to the server.
 	static {
-//		OUTPUT = null;
-//		INPUT = null;
-
-//		OutputStream outputStream = null;
-//		InputStream inputStream = null;
-//		try {
-//			// Create a socket to connect to the server
-//			Socket socket = new Socket("localhost", 8000); //TODO: Move host port either into constants, or preferably into startup input box
-//			outputStream = socket.getOutputStream();
-//			inputStream = socket.getInputStream();
-//		} catch (IOException ex) {
-//			System.err.println("[SYSTEM] Exception creating gateway socket:");
-//			ex.printStackTrace();
-//		}
-//		
-//		if (outputStream == null)
-//			throw new IllegalStateException("OutputStream is null!");
-//		if (inputStream == null)
-//			throw new IllegalStateException("InputStream is null!");
-//		
-//		// Create an output stream to send data to the server
-//		OUTPUT = new PrintWriter(outputStream);
-//		// Create an INPUT stream to read data from the server
-//		INPUT = new BufferedReader(new InputStreamReader(inputStream));
-//		
-//		// Start the communication thread
-//		ProcessInputThread.startThread(INPUT);
-		
-		PipedInputStream pis = new PipedInputStream();
-		PipedOutputStream pos = null;
+		OutputStream outputStream = null;
+		InputStream inputStream = null;
 		try {
-			pos = new PipedOutputStream(pis);
-		} catch (IOException e) {
-			e.printStackTrace();
+			// Create a socket to connect to the server
+			Socket socket = new Socket("143.44.68.178", 1337); //TODO: Move host port either into constants, or preferably into startup input box
+			outputStream = socket.getOutputStream();
+			inputStream = socket.getInputStream();
+		} catch (IOException ex) {
+			System.err.println("[SYSTEM] Exception creating gateway socket:");
+			ex.printStackTrace();
 		}
-		INPUT = new BufferedReader(new InputStreamReader(pis));
-		OUTPUT = new PrintWriter(pos);
+		
+		if (outputStream == null)
+			throw new IllegalStateException("OutputStream is null!");
+		if (inputStream == null)
+			throw new IllegalStateException("InputStream is null!");
+		
+		// Create an output stream to send data to the server
+		OUTPUT = new PrintWriter(outputStream);
+		// Create an INPUT stream to read data from the server
+		INPUT = new BufferedReader(new InputStreamReader(inputStream));
+		
+		// Start the communication thread
 		ProcessInputThread.startThread(INPUT);
+
+//		PipedInputStream pis = new PipedInputStream();
+//		PipedOutputStream pos = null;
+//		try {
+//			pos = new PipedOutputStream(pis);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		INPUT = new BufferedReader(new InputStreamReader(pis));
+//		OUTPUT = new PrintWriter(pos);
+//		ProcessInputThread.startThread(INPUT);
 	}
 	
 	/**
