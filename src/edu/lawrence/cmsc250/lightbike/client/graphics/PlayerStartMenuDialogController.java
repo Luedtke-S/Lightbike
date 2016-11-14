@@ -137,4 +137,17 @@ public class PlayerStartMenuDialogController
 		parent.setScene(scene);
 		parent.setTitle("It's on!");
 	}
+	
+	@FXML
+	public void pressLeave() throws IOException
+	{
+		Gateway.sendLeaveRoom();
+		Stage parent = (Stage)readyLabel1.getScene().getWindow();
+		
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("chooseRoomDialog.fxml"));
+		Parent root = (Parent)loader.load();
+		Scene scene = new Scene(root);
+		parent.setScene(scene);
+		parent.setTitle("Choose Room");
+	}
 }

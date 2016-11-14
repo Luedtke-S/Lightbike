@@ -3,6 +3,8 @@ package edu.lawrence.cmsc250.lightbike.client.graphics.panes;
 import java.util.ArrayList;
 
 import edu.lawrence.cmsc250.lightbike.client.game.Bike;
+import edu.lawrence.cmsc250.lightbike.client.game.physics.Direction;
+import edu.lawrence.cmsc250.lightbike.client.networking.Gateway;
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -33,8 +35,11 @@ public class Grid extends Pane
 	{
 		
 		boolean isPressed = false;
-		if (key.getCode() == KeyCode.DOWN) {
-			
+		if (key.getCode() == KeyCode.LEFT) {
+			Gateway.sendControlPressed(Direction.LEFT);
+		}
+		if (key.getCode()==KeyCode.RIGHT){
+			Gateway.sendControlPressed(Direction.RIGHT);
 		}
 	}
 	

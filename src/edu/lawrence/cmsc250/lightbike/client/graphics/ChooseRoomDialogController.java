@@ -2,6 +2,7 @@ package edu.lawrence.cmsc250.lightbike.client.graphics;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.Optional;
 
 import edu.lawrence.cmsc250.lightbike.client.networking.Gateway;
 import edu.lawrence.cmsc250.lightbike.client.networking.Room;
@@ -14,6 +15,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextInputDialog;
 import javafx.stage.Stage;
 
 /**
@@ -58,21 +60,32 @@ public class ChooseRoomDialogController
 	@FXML
 	public void pressRefresh()
 	{
-		
+		if (rooms.size() > 0) {
+			joinButton.setDisable(false);
+		}
 	}
 	
 	@FXML
 	public void pressCreate() throws IOException
 	{
-		Stage parent = (Stage)joinButton.getScene().getWindow();
+		TextInputDialog dialog = new TextInputDialog();
+		dialog.setTitle("Enter Room Name");
 		
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("playerStartMenuDialog.fxml"));
-		Parent root = (Parent)loader.load();
-		Scene scene = new Scene(root);
-		parent.setScene(scene);
-		parent.setTitle("Ready Up");
+		Optional<String> name = dialog.showAndWait();
 		
-		PlayerStartMenuDialogController controller = (PlayerStartMenuDialogController)loader.getController();
-		controller.setPlayer1();
+		if (name.isPresent()) {
+			Gateway.sendCreateRoom(name.get());
+			
+			Stage parent = (Stage)joinButton.getScene().getWindow();
+			
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("playerStartMenuDialog.fxml"));
+			Parent root = (Parent)loader.load();
+			Scene scene = new Scene(root);
+			parent.setScene(scene);
+			parent.setTitle("Ready Up");
+			
+			PlayerStartMenuDialogController controller = (PlayerStartMenuDialogController)loader.getController();
+			controller.setPlayer1();
+		}
 	}
 }

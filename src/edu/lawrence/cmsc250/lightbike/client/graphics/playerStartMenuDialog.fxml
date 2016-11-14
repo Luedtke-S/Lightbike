@@ -34,7 +34,7 @@
     <bottom>
         <HBox alignment="CENTER" spacing="20.0" BorderPane.alignment="CENTER">
             <children>
-                <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#pressReady" text="Leave" />
+                <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#pressLeave" text="Leave" />
                 <ToggleButton fx:id="readyButton" mnemonicParsing="false" onAction="#pressReady" text="Ready" />
             </children>
             <BorderPane.margin>
