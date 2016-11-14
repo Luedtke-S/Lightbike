@@ -231,8 +231,8 @@ public enum Gateway
 	private static void sendPacket(OutboundPacketType packetType)
 	{
 		System.out.println("Sending packet of type " + packetType.name());
-//		OUTPUT.println(packetType.toInt());
-//		OUTPUT.flush();
+		OUTPUT.println(packetType.toInt());
+		OUTPUT.flush();
 	}
 	
 	/**
@@ -244,9 +244,9 @@ public enum Gateway
 	private static void sendPacket(OutboundPacketType packetType, int packet)
 	{
 		System.out.println("Sending packet of type " + packetType.name() + " with data " + packet);
-//		OUTPUT.println(packetType.toInt());
-//		OUTPUT.println(packet);
-//		OUTPUT.flush();
+		OUTPUT.println(packetType.toInt());
+		OUTPUT.println(packet);
+		OUTPUT.flush();
 	}
 	
 	/**
@@ -258,9 +258,9 @@ public enum Gateway
 	private static void sendPacket(OutboundPacketType packetType, String packet)
 	{
 		System.out.println("Sending packet of type " + packetType.name() + " with data " + packet);
-//		OUTPUT.println(packetType.toInt());
-//		OUTPUT.println(packet);
-//		OUTPUT.flush();
+		OUTPUT.println(packetType.toInt());
+		OUTPUT.println(packet);
+		OUTPUT.flush();
 	}
 	// </editor-fold>
 	
