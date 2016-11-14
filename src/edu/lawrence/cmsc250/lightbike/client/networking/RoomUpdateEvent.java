@@ -15,7 +15,7 @@ public class RoomUpdateEvent implements PacketEvent
 		// parseFrom format:
 		// {open}:{ID}:{occupants}:{readyList}:{name}
 		String[] roomData = parseFrom.split(":", 4);
-		this.roomClosed = Integer.parseInt(roomData[0]) == 1;
+		this.roomClosed = Integer.parseInt(roomData[0]) != 1;
 		this.room = (roomClosed ? null : new Room(Integer.parseInt(roomData[1]), Integer.parseInt(roomData[2]), Integer.parseInt(roomData[3]), roomData[4]));
 	}
 }
