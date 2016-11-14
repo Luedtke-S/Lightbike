@@ -1,5 +1,7 @@
 package edu.lawrence.cmsc250.lightbike.client.networking;
 
+import javafx.application.Platform;
+
 /**
  * A handler to be used when a certain type of packet is received
  *
@@ -10,6 +12,11 @@ package edu.lawrence.cmsc250.lightbike.client.networking;
 @FunctionalInterface
 public interface PacketEventHandler<T extends PacketEvent>
 {
+	default void postEvent(T event)
+	{
+		Platform.runLater(() -> handleEvent(event));
+	}
+	
 	/**
 	 * Handle the event
 	 * <p>

@@ -80,8 +80,7 @@ final class ProcessInputThread extends Thread
 								Bike.bike1.updateFrom(data[2]);
 						}
 						
-						GameUpdateEvent event = new GameUpdateEvent(updateNumber);
-						Platform.runLater(() -> handler.handleEvent(event));
+						handler.postEvent(new GameUpdateEvent(updateNumber));
 						break;
 					}
 					case ROOM_LIST: {
@@ -94,7 +93,7 @@ final class ProcessInputThread extends Thread
 						if (handler == null)
 							return; //There is no handler for this event, don't bother
 						
-						handler.handleEvent(new RoomListEvent(data));
+						handler.postEvent(new RoomListEvent(data));
 						break;
 					}
 					case ROOM_UPDATE: {
@@ -107,7 +106,7 @@ final class ProcessInputThread extends Thread
 						if (handler == null)
 							return; //There is no handler for this event, don't bother
 						
-						handler.handleEvent(new RoomUpdateEvent(data));
+						handler.postEvent(new RoomUpdateEvent(data));
 						break;
 					}
 					case RESPONSE: {
