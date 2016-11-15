@@ -159,7 +159,7 @@ public class PlayerStartMenuDialogController
 	{
 		
 		if (isP1) {
-			
+			Gateway.startGame();
 		} else {
 			Gateway.updateReadyState(readyButton.isSelected());
 		}
