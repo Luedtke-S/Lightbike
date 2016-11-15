@@ -2,6 +2,7 @@ package edu.lawrence.cmsc250.lightbike.client.graphics;
 
 import java.io.IOException;
 
+import edu.lawrence.cmsc250.lightbike.client.Main;
 import edu.lawrence.cmsc250.lightbike.client.game.Bike;
 import edu.lawrence.cmsc250.lightbike.client.graphics.panes.Grid;
 import edu.lawrence.cmsc250.lightbike.client.networking.GameFinishedEvent;
@@ -13,7 +14,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 import static edu.lawrence.cmsc250.lightbike.client.game.Constants.GRID_SCREEN_SIZE;
 import static edu.lawrence.cmsc250.lightbike.client.game.Constants.SCREEN_MARGIN;
 
@@ -22,7 +22,7 @@ public class Controller
 	@FXML
 	public Pane gridWindow;
 	
-	public static void showGame(int playerCount, Stage stage)
+	public static void show(int playerCount)
 	{
 		Bike.bikeCount = playerCount;
 		
@@ -31,9 +31,9 @@ public class Controller
 			Parent root = loader.load();
 			double size = GRID_SCREEN_SIZE + (SCREEN_MARGIN * 2);
 			Scene scene = new Scene(root, size, size);
-			stage.setScene(scene);
-			stage.setTitle("It's on!");
-			stage.setResizable(false);
+			Main.root.setScene(scene);
+			Main.root.setTitle("It's on!");
+			Main.root.setResizable(false);
 			
 			scene.setOnKeyPressed(Grid::handleKeyEvent);
 			Gateway.finishedSetup();

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Optional;
 
+import edu.lawrence.cmsc250.lightbike.client.Main;
 import edu.lawrence.cmsc250.lightbike.client.networking.Gateway;
 import edu.lawrence.cmsc250.lightbike.client.networking.JoinRoomSuccessEvent;
 import edu.lawrence.cmsc250.lightbike.client.networking.Room;
@@ -17,7 +18,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextInputDialog;
-import javafx.stage.Stage;
 
 /**
  * @author luedtkes
@@ -31,6 +31,18 @@ public class ChooseRoomDialogController
 	
 	private ObservableList<Room> rooms = FXCollections.observableArrayList();
 	
+	public static void show()
+	{
+		try {
+			Parent root = FXMLLoader.load(ChooseRoomDialogController.class.getResource("chooseRoomDialog.fxml"));
+			Scene scene = new Scene(root);
+			Main.root.setScene(scene);
+			Main.root.setTitle("Choose Room");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	@FXML
 	public void initialize()
 	{
@@ -43,18 +55,7 @@ public class ChooseRoomDialogController
 			Collections.addAll(rooms, event.rooms);
 		}, RoomListEvent.class);
 		Gateway.setEventHandler(event -> {
-			try {
-				Stage parent = (Stage)joinButton.getScene().getWindow();
-				
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("playerStartMenuDialog.fxml"));
-				Parent root = null;
-				root = loader.load();
-				Scene scene = new Scene(root);
-				parent.setScene(scene);
-				parent.setTitle("Ready Up");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			PlayerStartMenuDialogController.show(event.playerNum);
 		}, JoinRoomSuccessEvent.class);
 		
 		roomView.setItems(rooms);
@@ -82,17 +83,7 @@ public class ChooseRoomDialogController
 		
 		if (name.isPresent()) {
 			Gateway.sendCreateRoom(name.get());
-			
-			Stage parent = (Stage)joinButton.getScene().getWindow();
-			
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("playerStartMenuDialog.fxml"));
-			Parent root = loader.load();
-			Scene scene = new Scene(root);
-			parent.setScene(scene);
-			parent.setTitle("Ready Up");
-			
-			PlayerStartMenuDialogController controller = loader.getController();
-			controller.setPlayer1();
+			PlayerStartMenuDialogController.show(1);
 		}
 	}
 	

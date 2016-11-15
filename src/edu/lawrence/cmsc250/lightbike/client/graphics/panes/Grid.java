@@ -83,7 +83,6 @@ public class Grid extends Pane
 			case DOWN:
 				Gateway.sendControlPressed(Direction.DOWN);
 		}
-		
 	}
 	
 	public void draw()

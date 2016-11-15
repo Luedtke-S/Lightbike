@@ -2,6 +2,7 @@ package edu.lawrence.cmsc250.lightbike.client.graphics;
 
 import java.io.IOException;
 
+import edu.lawrence.cmsc250.lightbike.client.Main;
 import edu.lawrence.cmsc250.lightbike.client.game.Constants;
 import edu.lawrence.cmsc250.lightbike.client.networking.Gateway;
 import edu.lawrence.cmsc250.lightbike.client.networking.RoomUpdateEvent;
@@ -12,8 +13,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 
 /**
  * @author luedtkes
@@ -39,7 +38,23 @@ public class PlayerStartMenuDialogController
 	@FXML
 	ToggleButton readyButton;
 	
-	private boolean isP1 = false;
+	private int player;
+	
+	public static void show(int player)
+	{
+		try {
+			FXMLLoader loader = new FXMLLoader(PlayerStartMenuDialogController.class.getResource("playerStartMenuDialog.fxml"));
+			Parent root = loader.load();
+			Scene scene = new Scene(root);
+			Main.root.setScene(scene);
+			Main.root.setTitle("Ready Up");
+			
+			PlayerStartMenuDialogController controller = loader.getController();
+			controller.setPlayer(player);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	@FXML
 	public void initialize()
@@ -50,110 +65,92 @@ public class PlayerStartMenuDialogController
 		playerLabel4.setTextFill(Constants.YELLOW);
 		readyLabel1.setTextFill(Constants.RED);
 		Gateway.setEventHandler(this::gameUpdated, RoomUpdateEvent.class);
-		Gateway.setEventHandler(event -> Controller.showGame(event.playerCount, (Stage)readyButton.getScene().getWindow()), SetupEvent.class);
+		Gateway.setEventHandler(event -> Controller.show(event.playerCount), SetupEvent.class);
 	}
 	
 	public void gameUpdated(RoomUpdateEvent e)
 	{
-		if (e.roomClosed) {
-			try {
-				Stage parent = (Stage)readyButton.getScene().getWindow();
-				
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("chooseRoomDialog.fxml"));
-				Parent root = (Parent)loader.load();
-				Scene scene = new Scene(root);
-				parent.setScene(scene);
-				parent.setTitle("Choose Room");
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-		} else {
+		if (e.roomClosed)
+			ChooseRoomDialogController.show();
+		else {
+			int needReady = e.room.occupants - 1;
 			
-			if (e.room.occupants == 2) {
+			if (e.room.occupants >= 2) {
 				if (e.room.player2Ready) {
 					readyLabel2.setText("READY");
-					readyLabel2.setTextFill(Constants.BLUE);
-					readyButton.setDisable(false);
+					readyLabel2.setTextFill(Constants.READY);
+					needReady--;
 				} else {
 					readyLabel2.setText("NOT READY");
-					readyLabel2.setTextFill(Color.WHITE);
-					if (isP1)
-						readyButton.setDisable(true);
+					readyLabel2.setTextFill(Constants.NOT_READY);
 				}
+			} else {
+				readyLabel2.setText("empty");
+				readyLabel2.setTextFill(Constants.EMPTY_SLOT);
 			}
 			
-			if (e.room.occupants == 3) {
-				if (e.room.player2Ready) {
-					readyLabel2.setText("READY");
-					readyLabel2.setTextFill(Constants.BLUE);
-				} else {
-					readyLabel2.setText("NOT READY");
-					readyLabel2.setTextFill(Color.WHITE);
-				}
-				
+			if (e.room.occupants >= 3) {
 				if (e.room.player3Ready) {
 					readyLabel3.setText("READY");
-					readyLabel3.setTextFill(Constants.GREEN);
+					readyLabel3.setTextFill(Constants.READY);
+					needReady--;
 				} else {
 					readyLabel3.setText("NOT READY");
-					readyLabel3.setTextFill(Color.WHITE);
+					readyLabel3.setTextFill(Constants.NOT_READY);
 				}
-				if (isP1) {
-					if (e.room.player2Ready && e.room.player3Ready) {
-						readyButton.setDisable(false);
-					} else {
-						readyButton.setDisable(true);
-					}
-				}
+			} else {
+				readyLabel3.setText("empty");
+				readyLabel3.setTextFill(Constants.EMPTY_SLOT);
 			}
 			
 			if (e.room.occupants == 4) {
-				if (e.room.player2Ready) {
-					readyLabel2.setText("READY");
-					readyLabel2.setTextFill(Constants.BLUE);
-				} else {
-					readyLabel2.setText("NOT READY");
-					readyLabel2.setTextFill(Color.WHITE);
-				}
-				
-				if (e.room.player3Ready) {
-					readyLabel3.setText("READY");
-					readyLabel3.setTextFill(Constants.GREEN);
-				} else {
-					readyLabel3.setTextFill(Color.WHITE);
-					readyLabel3.setText("NOT READY");
-				}
-				
 				if (e.room.player4Ready) {
 					readyLabel4.setText("READY");
-					readyLabel4.setTextFill(Constants.YELLOW);
+					readyLabel4.setTextFill(Constants.READY);
+					needReady--;
 				} else {
-					readyLabel4.setTextFill(Color.WHITE);
+					readyLabel4.setTextFill(Constants.NOT_READY);
 					readyLabel4.setText("NOT READY");
 				}
-				if (isP1) {
-					if (e.room.player2Ready && e.room.player3Ready && e.room.player4Ready) {
-						readyButton.setDisable(false);
-					} else {
-						readyButton.setDisable(true);
-					}
-				}
+			} else {
+				readyLabel4.setText("empty");
+				readyLabel4.setTextFill(Constants.EMPTY_SLOT);
 			}
+			
+			if (player == 1)
+				readyButton.setDisable(needReady != 0);
 		}
 	}
 	
-	public void setPlayer1()
+	public void setPlayer(int player)
 	{
-		isP1 = true;
-		readyButton.setText("Start");
-		readyButton.setDisable(true);
+		this.player = player;
+		switch (player) {
+			case 1:
+				readyButton.setText("Start");
+				readyButton.setDisable(true);
+				readyLabel1.setText("You");
+				readyLabel2.setTextFill(Constants.YOU_COLOR);
+				break;
+			case 2:
+				readyLabel2.setText("You");
+				readyLabel2.setTextFill(Constants.YOU_COLOR);
+				break;
+			case 3:
+				readyLabel3.setText("You");
+				readyLabel2.setTextFill(Constants.YOU_COLOR);
+				break;
+			case 4:
+				readyLabel4.setText("You");
+				readyLabel2.setTextFill(Constants.YOU_COLOR);
+				break;
+		}
 	}
 	
 	@FXML
 	public void pressReady() throws IOException
 	{
-		
-		if (isP1) {
+		if (player == 1) {
 			Gateway.startGame();
 		} else {
 			Gateway.updateReadyState(readyButton.isSelected());
@@ -164,12 +161,6 @@ public class PlayerStartMenuDialogController
 	public void pressLeave() throws IOException
 	{
 		Gateway.sendLeaveRoom();
-		Stage parent = (Stage)readyLabel1.getScene().getWindow();
-		
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("chooseRoomDialog.fxml"));
-		Parent root = loader.load();
-		Scene scene = new Scene(root);
-		parent.setScene(scene);
-		parent.setTitle("Choose Room");
+		ChooseRoomDialogController.show();
 	}
 }

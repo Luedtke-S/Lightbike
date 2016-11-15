@@ -83,14 +83,15 @@ final class ProcessInputThread extends Thread
 						
 						switch (data[0]) {
 							case "join_room": {
-								if (Boolean.parseBoolean(data[1])) {
+								int playerNum = Integer.parseInt(data[1]);
+								if (playerNum > -1) {
 									//noinspection unchecked
 									PacketEventHandler<JoinRoomSuccessEvent> handler = Gateway.getHandlerForClass(JoinRoomSuccessEvent.class);
 									if (handler == null)
 										return; //There is no handler for this event, don't bother
-									
-									handler.postEvent(new JoinRoomSuccessEvent());
-								}
+									handler.postEvent(new JoinRoomSuccessEvent(playerNum));
+								} else
+									Gateway.requestRooms();
 								break;
 							}
 						}

@@ -23,4 +23,8 @@ public class Constants
 	public static final Color YELLOW = new Color(1, 1, 0, 1);
 	public static final Color CRASHED_TEXT = new Color(0.9, 0.9, 0.9, 1);
 	public static final Color GAME_OVER_TEXT = new Color(0.9, 0.9, 0.9, 1);
+	public static final Color YOU_COLOR = new Color(0.9, 0.9, 0.9, 1);
+	public static final Color READY = new Color(0.25, 0.5, 0.25, 1);
+	public static final Color NOT_READY = new Color(0.5, 0.25, 0.25, 1);
+	public static final Color EMPTY_SLOT = new Color(0.4, 0.4, 0.4, 1);
 }
