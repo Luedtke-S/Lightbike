@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 /**
@@ -73,42 +74,73 @@ public class PlayerStartMenuDialogController
 			if (e.room.occupants == 2) {
 				if (e.room.player2Ready) {
 					readyLabel2.setText("READY");
-					playersReady2 += 1;
+					readyLabel2.setTextFill(Constants.BLUE);
+					readyButton.setDisable(false);
+				} else {
+					readyLabel2.setText("NOT READY");
+					readyLabel2.setTextFill(Color.WHITE);
+					readyButton.setDisable(true);
 				}
 			}
+		
 			
 			if (e.room.occupants == 3) {
 				if (e.room.player2Ready) {
 					readyLabel2.setText("READY");
-					playersReady3 += 1;
+					readyLabel2.setTextFill(Constants.BLUE);
+				} else {
+					readyLabel2.setText("NOT READY");
+					readyLabel2.setTextFill(Color.WHITE);
 				}
 				
-				if (e.room.player2Ready) {
-					readyLabel2.setText("READY");
-					playersReady3 += 1;
+				if (e.room.player3Ready) {
+					readyLabel3.setText("READY");
+					readyLabel3.setTextFill(Constants.GREEN);
+				} else {
+					readyLabel3.setText("NOT READY");
+					readyLabel3.setTextFill(Color.WHITE);
+				}
+				
+				if (e.room.player2Ready && e.room.player3Ready) {
+					readyButton.setDisable(false);
+				} else {
+					readyButton.setDisable(true);
 				}
 			}
 			
 			if (e.room.occupants == 4) {
 				if (e.room.player2Ready) {
 					readyLabel2.setText("READY");
-					playersReady4 += 1;
+					readyLabel2.setTextFill(Constants.BLUE);
+				} else {
+					readyLabel2.setText("NOT READY");
+					readyLabel2.setTextFill(Color.WHITE);
 				}
 				
-				if (e.room.player2Ready) {
-					readyLabel2.setText("READY");
-					playersReady4 += 1;
+				if (e.room.player3Ready) {
+					readyLabel3.setText("READY");
+					readyLabel3.setTextFill(Constants.GREEN);
+				} else {
+					readyLabel3.setTextFill(Color.WHITE);
+					readyLabel3.setText("NOT READY");
 				}
 				
 				if (e.room.player4Ready) {
 					readyLabel4.setText("READY");
-					playersReady4 += 1;
+					readyLabel4.setTextFill(Constants.YELLOW);
+				} else {
+					readyLabel4.setTextFill(Color.WHITE);
+					readyLabel4.setText("NOT READY");
+				}
+				
+				if (e.room.player2Ready&&e.room.player3Ready&&e.room.player4Ready){
+					readyButton.setDisable(false);
+				} else {
+					readyButton.setDisable(true);
 				}
 			}
 			
-			if (playersReady2 == 2 || playersReady3 == 3 || playersReady4 == 4) {
-				readyButton.setDisable(false);
-			}
+			
 		}
 	}
 	

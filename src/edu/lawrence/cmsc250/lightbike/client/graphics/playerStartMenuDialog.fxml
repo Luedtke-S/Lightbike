@@ -22,10 +22,10 @@
                 </VBox>
                 <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0">
                     <children>
-                        <Label fx:id="readyLabel1" text="Label" textFill="WHITE" />
-                        <Label fx:id="readyLabel2" layoutX="10.0" layoutY="10.0" text="Label" textFill="WHITE" />
-                        <Label fx:id="readyLabel3" layoutX="10.0" layoutY="10.0" text="Label" textFill="WHITE" />
-                        <Label fx:id="readyLabel4" layoutX="10.0" layoutY="31.0" text="Label" textFill="WHITE" />
+                        <Label fx:id="readyLabel1" text="READY" textFill="WHITE" />
+                        <Label fx:id="readyLabel2" layoutX="10.0" layoutY="10.0" text="NOT READY" textFill="WHITE" />
+                        <Label fx:id="readyLabel3" layoutX="10.0" layoutY="10.0" text="NOT READY" textFill="WHITE" />
+                        <Label fx:id="readyLabel4" layoutX="10.0" layoutY="31.0" text="NOT READY" textFill="WHITE" />
                     </children>
                 </VBox>
             </children>
