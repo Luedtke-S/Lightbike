@@ -3,6 +3,7 @@ package edu.lawrence.cmsc250.lightbike.client.graphics;
 import java.io.IOException;
 
 import edu.lawrence.cmsc250.lightbike.client.game.Constants;
+import edu.lawrence.cmsc250.lightbike.client.graphics.panes.Grid;
 import edu.lawrence.cmsc250.lightbike.client.networking.Gateway;
 import edu.lawrence.cmsc250.lightbike.client.networking.RoomUpdateEvent;
 import edu.lawrence.cmsc250.lightbike.client.networking.SetupEvent;
@@ -188,6 +189,7 @@ public class PlayerStartMenuDialogController
 			parent.setScene(scene);
 			parent.setTitle("It's on!");
 			
+			scene.setOnKeyPressed((evt) -> Grid.handleKeyEvent(evt));
 			Gateway.finishedSetup();
 		} catch (IOException e) {
 			e.printStackTrace();

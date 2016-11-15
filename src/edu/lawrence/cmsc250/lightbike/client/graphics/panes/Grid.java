@@ -33,23 +33,20 @@ public class Grid extends Pane
 	
 	public static void handleKeyEvent(KeyEvent key)
 	{
-		
-		boolean isPressed = false;
 		if (key.getCode() == KeyCode.LEFT) {
 			Gateway.sendControlPressed(Direction.LEFT);
 		}
-		if (key.getCode()==KeyCode.RIGHT){
+		if (key.getCode() == KeyCode.RIGHT) {
 			Gateway.sendControlPressed(Direction.RIGHT);
 		}
 	}
 	
 	public void draw()
 	{
-		for(BikePane b: bikes){
+		for (BikePane b : bikes) {
 			b.refresh();
 		}
 	}
-	
 	
 	public void loadBikes()
 	{

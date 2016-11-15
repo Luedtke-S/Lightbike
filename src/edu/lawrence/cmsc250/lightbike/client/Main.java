@@ -1,6 +1,5 @@
 package edu.lawrence.cmsc250.lightbike.client;
 
-import edu.lawrence.cmsc250.lightbike.client.graphics.panes.Grid;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -23,8 +22,6 @@ public class Main extends Application
 		Scene scene = new Scene(root);
 		primaryStage.setScene(scene);
 		primaryStage.show();
-		
-		scene.setOnKeyPressed((evt) -> Grid.handleKeyEvent(evt));
 	}
 	
 	@Override
