@@ -51,7 +51,7 @@ public class BikePane extends Pane
 		Point2D startPos = bike.getPath()[0].toGraphicsPosition();
 		Point2D currentPos = bike.getLocation().toGraphicsPosition();
 		currentTrail = new Line(startPos.x, startPos.y, currentPos.x, currentPos.y);
-//		currentTrail.setStroke(playerBike.getFill());
+		currentTrail.setStroke(playerBike.getFill());
 		currentTrail.setStrokeWidth(3);
 		getChildren().add(currentTrail);
 		refresh();
@@ -79,7 +79,7 @@ public class BikePane extends Pane
 			currentTrail.setEndX(last.x);
 			currentTrail.setEndY(last.y);
 			currentTrail = new Line(last.x, last.y, screenLoco.x + xOffset, screenLoco.y + yOffset);
-//			currentTrail.setStroke(playerBike.getFill());
+			currentTrail.setStroke(playerBike.getFill());
 			currentTrail.setStrokeWidth(3);
 			getChildren().add(currentTrail);
 			trailLength++;
