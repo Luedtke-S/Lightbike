@@ -21,4 +21,9 @@ public final class GameUpdateEvent implements PacketEvent
 			throw new IllegalStateException("Update numbers must be sequential - expected '" + (lastUpdateNumber + 1) + "' got '" + updateNumber + "'");
 		lastUpdateNumber = updateNumber;
 	}
+	
+	public static void reset()
+	{
+		lastUpdateNumber = 0;
+	}
 }

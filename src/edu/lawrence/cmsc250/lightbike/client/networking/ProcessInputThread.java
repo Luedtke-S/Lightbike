@@ -148,6 +148,8 @@ final class ProcessInputThread extends Thread
 						// {winner}
 						String data = input.readLine();
 						
+						GameUpdateEvent.reset();
+						
 						//noinspection unchecked
 						PacketEventHandler<GameFinishedEvent> handler = Gateway.getHandlerForClass(GameFinishedEvent.class);
 						if (handler == null)
