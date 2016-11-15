@@ -98,7 +98,7 @@ public class Grid extends Pane
 	{
 		finished = true;
 		String txt = winnerText.getText();
-		winnerText.setText(txt.substring(0, txt.length() - 2) + event.winner);
+		winnerText.setText(txt.substring(0, txt.length() - 1) + event.winner);
 		draw();
 	}
 	
