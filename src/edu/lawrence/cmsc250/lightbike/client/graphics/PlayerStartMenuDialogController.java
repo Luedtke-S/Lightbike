@@ -51,7 +51,7 @@ public class PlayerStartMenuDialogController
 		playerLabel2.setTextFill(Constants.BLUE);
 		playerLabel3.setTextFill(Constants.GREEN);
 		playerLabel4.setTextFill(Constants.YELLOW);
-		
+		readyLabel1.setTextFill(Constants.RED);
 		Gateway.setEventHandler(event -> gameUpdated(event), RoomUpdateEvent.class);
 	}
 	
@@ -79,6 +79,7 @@ public class PlayerStartMenuDialogController
 				} else {
 					readyLabel2.setText("NOT READY");
 					readyLabel2.setTextFill(Color.WHITE);
+					if (isP1)
 					readyButton.setDisable(true);
 				}
 			}
@@ -100,11 +101,12 @@ public class PlayerStartMenuDialogController
 					readyLabel3.setText("NOT READY");
 					readyLabel3.setTextFill(Color.WHITE);
 				}
-				
-				if (e.room.player2Ready && e.room.player3Ready) {
-					readyButton.setDisable(false);
-				} else {
-					readyButton.setDisable(true);
+				if (isP1) {
+					if (e.room.player2Ready && e.room.player3Ready) {
+						readyButton.setDisable(false);
+					} else {
+						readyButton.setDisable(true);
+					}
 				}
 			}
 			
@@ -132,11 +134,12 @@ public class PlayerStartMenuDialogController
 					readyLabel4.setTextFill(Color.WHITE);
 					readyLabel4.setText("NOT READY");
 				}
-				
-				if (e.room.player2Ready&&e.room.player3Ready&&e.room.player4Ready){
-					readyButton.setDisable(false);
-				} else {
-					readyButton.setDisable(true);
+				if (isP1) {
+					if (e.room.player2Ready && e.room.player3Ready && e.room.player4Ready) {
+						readyButton.setDisable(false);
+					} else {
+						readyButton.setDisable(true);
+					}
 				}
 			}
 			
