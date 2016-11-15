@@ -7,16 +7,18 @@ package edu.lawrence.cmsc250.lightbike.client.networking;
  */
 enum InboundPacketType
 {
-	/** -- 0 -- Setup the initial game state */
-	SETUP,
-	/** -- 1 -- Update the game state */
-	UPDATE,
-	/** -- 2 -- The list of the rooms */
+	/** -- 0 -- The list of the rooms */
 	ROOM_LIST,
-	/** -- 3 -- The room's state has changed (closed, joined, left, ready, unready) */
+	/** -- 1 -- The room's state has changed (closed, joined, left, ready, unready) */
 	ROOM_UPDATE,
-	/** -- 4 -- Respond to client request */
+	/** -- 2 -- Respond to client request */
 	RESPONSE,
+	/** -- 3 -- Update the game state */
+	UPDATE,
+	/** -- 4 -- Update the game state */
+	CRASH,
+	/** -- 5 -- The game finished */
+	FINISH,
 	/** None of the other types match, thus it's invalid */
 	INVALID;
 	
@@ -31,15 +33,17 @@ enum InboundPacketType
 	{
 		switch (i) {
 			case 0:
-				return SETUP;
-			case 1:
-				return UPDATE;
-			case 2:
 				return ROOM_LIST;
-			case 3:
+			case 1:
 				return ROOM_UPDATE;
-			case 4:
+			case 2:
 				return RESPONSE;
+			case 3:
+				return UPDATE;
+			case 4:
+				return CRASH;
+			case 5:
+				return FINISH;
 			default:
 				return INVALID;
 		}

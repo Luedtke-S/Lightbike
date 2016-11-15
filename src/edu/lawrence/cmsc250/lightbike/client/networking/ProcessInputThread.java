@@ -50,8 +50,10 @@ final class ProcessInputThread extends Thread
 					break;
 				
 				switch (InboundPacketType.fromInt(Integer.parseInt(s))) {
-					case SETUP: {
-						//TODO do setup
+					case CRASH: {
+						break;
+					}
+					case FINISH: {
 						break;
 					}
 					case UPDATE: {
