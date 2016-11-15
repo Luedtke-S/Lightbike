@@ -9,7 +9,6 @@ import edu.lawrence.cmsc250.lightbike.client.networking.GameFinishedEvent;
 import edu.lawrence.cmsc250.lightbike.client.networking.Gateway;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -71,12 +70,20 @@ public class Grid extends Pane
 	
 	public static void handleKeyEvent(KeyEvent key)
 	{
-		if (key.getCode() == KeyCode.LEFT) {
-			Gateway.sendControlPressed(Direction.LEFT);
+		switch (key.getCode()) {
+			case LEFT:
+				Gateway.sendControlPressed(Direction.LEFT);
+				break;
+			case RIGHT:
+				Gateway.sendControlPressed(Direction.RIGHT);
+				break;
+			case UP:
+				Gateway.sendControlPressed(Direction.UP);
+				break;
+			case DOWN:
+				Gateway.sendControlPressed(Direction.DOWN);
 		}
-		if (key.getCode() == KeyCode.RIGHT) {
-			Gateway.sendControlPressed(Direction.RIGHT);
-		}
+		
 	}
 	
 	public void draw()

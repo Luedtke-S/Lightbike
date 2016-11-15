@@ -135,14 +135,12 @@ public enum Gateway
 	}
 	
 	/**
-	 * Send a direction press to the server -- MUST BE {@link Direction#LEFT} or {@link Direction#RIGHT}
+	 * Send a direction press to the server
 	 *
 	 * @param d The direction to turn
 	 */
 	public static void sendControlPressed(Direction d)
 	{
-		if (d != Direction.LEFT && d != Direction.RIGHT)
-			throw new IllegalStateException("Control must be either LEFT or RIGHT");
 		sendPacket(OutboundPacketType.CONTROL, d.toInt());
 	}
 	
