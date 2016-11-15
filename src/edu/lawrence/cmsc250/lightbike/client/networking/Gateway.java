@@ -134,6 +134,11 @@ public enum Gateway
 		sendPacket(OutboundPacketType.START_GAME);
 	}
 	
+	public static void rematch()
+	{
+		sendPacket(OutboundPacketType.REMATCH);
+	}
+	
 	/**
 	 * Send a direction press to the server
 	 *

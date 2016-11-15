@@ -20,7 +20,9 @@ enum OutboundPacketType
 	/** -- 5 -- A request to start the game */
 	START_GAME,
 	/** -- 6 -- A control update - the user pressed a button */
-	CONTROL;
+	CONTROL,
+	/** -- 7 -- The user wants a rematch */
+	REMATCH;
 	
 	/**
 	 * Converts this OutboundPacketType to a corresponding integer representation

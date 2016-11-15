@@ -84,9 +84,10 @@ public class Grid extends Pane
 				Gateway.sendControlPressed(Direction.DOWN);
 				break;
 			case ESCAPE:
+				Gateway.sendLeaveRoom();
 				break;
 			case R:
-				Gateway.startGame();
+				Gateway.rematch();
 		}
 	}
 	
