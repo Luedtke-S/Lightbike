@@ -82,6 +82,11 @@ public class Grid extends Pane
 				break;
 			case DOWN:
 				Gateway.sendControlPressed(Direction.DOWN);
+				break;
+			case ESCAPE:
+				break;
+			case R:
+				Gateway.startGame();
 		}
 	}
 	
