@@ -5,6 +5,7 @@ import java.io.IOException;
 import edu.lawrence.cmsc250.lightbike.client.game.Constants;
 import edu.lawrence.cmsc250.lightbike.client.networking.Gateway;
 import edu.lawrence.cmsc250.lightbike.client.networking.RoomUpdateEvent;
+import edu.lawrence.cmsc250.lightbike.client.networking.SetupEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -53,6 +54,7 @@ public class PlayerStartMenuDialogController
 		playerLabel4.setTextFill(Constants.YELLOW);
 		readyLabel1.setTextFill(Constants.RED);
 		Gateway.setEventHandler(event -> gameUpdated(event), RoomUpdateEvent.class);
+		Gateway.setEventHandler(event -> showGrid(), SetupEvent.class);
 	}
 	
 	public void gameUpdated(RoomUpdateEvent e)
@@ -80,10 +82,9 @@ public class PlayerStartMenuDialogController
 					readyLabel2.setText("NOT READY");
 					readyLabel2.setTextFill(Color.WHITE);
 					if (isP1)
-					readyButton.setDisable(true);
+						readyButton.setDisable(true);
 				}
 			}
-		
 			
 			if (e.room.occupants == 3) {
 				if (e.room.player2Ready) {
@@ -142,8 +143,6 @@ public class PlayerStartMenuDialogController
 					}
 				}
 			}
-			
-			
 		}
 	}
 	
@@ -163,14 +162,6 @@ public class PlayerStartMenuDialogController
 		} else {
 			Gateway.updateReadyState(readyButton.isSelected());
 		}
-
-//		Stage parent = (Stage)readyLabel1.getScene().getWindow();
-//		
-//		FXMLLoader loader = new FXMLLoader(getClass().getResource("arena.fxml"));
-//		Parent root = (Parent)loader.load();
-//		Scene scene = new Scene(root);
-//		parent.setScene(scene);
-//		parent.setTitle("It's on!");
 	}
 	
 	@FXML
@@ -184,5 +175,22 @@ public class PlayerStartMenuDialogController
 		Scene scene = new Scene(root);
 		parent.setScene(scene);
 		parent.setTitle("Choose Room");
+	}
+	
+	private void showGrid()
+	{
+		try {
+			Stage parent = (Stage)readyLabel1.getScene().getWindow();
+			
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("arena.fxml"));
+			Parent root = loader.load();
+			Scene scene = new Scene(root);
+			parent.setScene(scene);
+			parent.setTitle("It's on!");
+			
+			Gateway.finishedSetup();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
