@@ -51,7 +51,7 @@ public class ChooseRoomDialogController
 				root = loader.load();
 				Scene scene = new Scene(root);
 				parent.setScene(scene);
-				parent.setTitle("Ready Up Bitch");
+				parent.setTitle("Ready Up");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

@@ -128,15 +128,18 @@ public class PlayerStartMenuDialogController
 			
 		} else {
 			Gateway.updateReadyState(readyButton.isSelected());
+			
 		}
 		
-		Stage parent = (Stage)readyLabel1.getScene().getWindow();
 		
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("arena.fxml"));
-		Parent root = (Parent)loader.load();
-		Scene scene = new Scene(root);
-		parent.setScene(scene);
-		parent.setTitle("It's on!");
+		
+//		Stage parent = (Stage)readyLabel1.getScene().getWindow();
+//		
+//		FXMLLoader loader = new FXMLLoader(getClass().getResource("arena.fxml"));
+//		Parent root = (Parent)loader.load();
+//		Scene scene = new Scene(root);
+//		parent.setScene(scene);
+//		parent.setTitle("It's on!");
 	}
 	
 	@FXML

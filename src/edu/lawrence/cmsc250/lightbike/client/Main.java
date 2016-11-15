@@ -26,4 +26,10 @@ public class Main extends Application
 		
 		scene.setOnKeyPressed((evt) -> Grid.handleKeyEvent(evt));
 	}
+	
+	@Override
+	public void stop() throws Exception
+	{
+		System.exit(0);
+	}
 }
