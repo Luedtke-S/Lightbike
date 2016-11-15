@@ -14,19 +14,19 @@ import static edu.lawrence.cmsc250.lightbike.client.game.Constants.START_OFFSET;
 public class Bike
 {
 	/** The pattern to validate the String passed into {@link #updateFrom(String)} */
-	public static final Pattern BIKE_STRING_FORMAT = Pattern.compile("^" + Point2D.POINT_STRING_FORMAT + "(>\\d+>" + Point2D.POINT_STRING_FORMAT + ")?$");
+	public static final Pattern BIKE_STRING_FORMAT = Pattern.compile("^" + Point2D.POINT_STRING_FORMAT + ">\\d(>\\d>" + Point2D.POINT_STRING_FORMAT + ")?$");
 	
-	/** Player 1 - Starts bottom-left moving right  --  color: red */
+	/** Player 1 - Starts top-left moving right  --  color: red */
 	public static final Bike bike1 = new Bike(new Point2D(-1 * START_OFFSET, -1 * START_OFFSET), Direction.RIGHT, BikeColor.RED);
-	/** Player 2 - Starts top-right moving left  --  color: blue */
+	/** Player 2 - Starts bottom-right moving left  --  color: blue */
 	public static final Bike bike2 = new Bike(new Point2D(START_OFFSET, START_OFFSET), Direction.LEFT, BikeColor.BLUE);
-	/** Player 3 - Starts bottom-right moving up  --  color: green */
-	public static final Bike bike3 = new Bike(new Point2D(START_OFFSET, -1 * START_OFFSET), Direction.UP, BikeColor.GREEN);
-	/** Player 4 - Starts top-left moving down  --  color: yellow */
-	public static final Bike bike4 = new Bike(new Point2D(-1 * START_OFFSET, START_OFFSET), Direction.DOWN, BikeColor.YELLOW);
+	/** Player 3 - Starts top-right moving up  --  color: green */
+	public static final Bike bike3 = new Bike(new Point2D(START_OFFSET, -1 * START_OFFSET), Direction.DOWN, BikeColor.GREEN);
+	/** Player 4 - Starts bottom-left moving down  --  color: yellow */
+	public static final Bike bike4 = new Bike(new Point2D(-1 * START_OFFSET, START_OFFSET), Direction.UP, BikeColor.YELLOW);
 	
 	/** How many players there are */
-	public static int bikeCount = 2; //TODO: SET BACK TO -1
+	public static int bikeCount = -1;
 	
 	/** The color of the bike */
 	public final BikeColor color;
@@ -36,6 +36,8 @@ public class Bike
 	private Point2D location;
 	/** The direction the bike is moving */
 	private Direction direction;
+	/** Whether or not the bike has crashed */
+	private boolean crashed = false;
 	
 	/**
 	 * Create a new bike object
@@ -94,6 +96,11 @@ public class Bike
 		return direction;
 	}
 	
+	public boolean crashed()
+	{
+		return crashed;
+	}
+	
 	/**
 	 * Get the path the bike has followed
 	 *
@@ -112,16 +119,17 @@ public class Bike
 	public void updateFrom(String updateFrom)
 	{
 		// Bike format:
-		// {location}>{direction?}>{turn?}
+		// {location}>{alive}>{direction?}>{turn?}
 		if (!BIKE_STRING_FORMAT.matcher(updateFrom).matches())
-			throw new IllegalArgumentException("Expected format '{location}' or '{location}>{direction}>{turn}' but got '" + updateFrom + "'");
+			throw new IllegalArgumentException("Expected format '{location}>{alive}' or '{location}>{alive}>{direction}>{turn}' but got '" + updateFrom + "'");
 		
 		String[] data = updateFrom.split(">");
 		this.location = new Point2D(data[0]);
-		if (data.length == 3) {
-			Direction newDirection = Direction.fromInt(Integer.parseInt(data[1]));
+		this.crashed = Integer.parseInt(data[1]) == 0;
+		if (data.length == 4) {
+			Direction newDirection = Direction.fromInt(Integer.parseInt(data[2]));
 			if (newDirection != this.direction) {
-				this.path.add(new Point2D(data[2]));
+				this.path.add(new Point2D(data[3]));
 				this.direction = newDirection;
 			}
 		}

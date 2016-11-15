@@ -50,49 +50,6 @@ final class ProcessInputThread extends Thread
 					break;
 				
 				switch (InboundPacketType.fromInt(Integer.parseInt(s))) {
-					case CRASH: {
-						break;
-					}
-					case FINISH: {
-						break;
-					}
-					case SETUP: {
-						//noinspection unchecked
-						PacketEventHandler<SetupEvent> handler = Gateway.getHandlerForClass(SetupEvent.class);
-						if (handler == null)
-							return; //There is no handler for this event, don't bother
-						
-						handler.postEvent(new SetupEvent());
-						break;
-					}
-					case UPDATE: {
-						// Packet format
-						// {updatenumber}|{bikecount}|{bike1}|{bike2}|{bike3?}|{bike4?}
-						String[] data = input.readLine().split("\\|");
-						
-						//noinspection unchecked
-						PacketEventHandler<GameUpdateEvent> handler = Gateway.getHandlerForClass(GameUpdateEvent.class);
-						if (handler == null)
-							return; //There is no handler for this event, don't bother
-						
-						int updateNumber = Integer.parseInt(data[0]);
-						if (updateNumber != GameUpdateEvent.lastUpdateNumber + 1)
-							throw new IllegalStateException("Update numbers must be sequential - expected '" + (GameUpdateEvent.lastUpdateNumber + 1) + "' got '" + updateNumber + "'");
-						
-						int bikeCount = Integer.parseInt(data[1]);
-						switch (bikeCount) {
-							case 4:
-								Bike.bike4.updateFrom(data[5]);
-							case 3:
-								Bike.bike3.updateFrom(data[4]);
-							case 2:
-								Bike.bike2.updateFrom(data[3]);
-								Bike.bike1.updateFrom(data[2]);
-						}
-						
-						handler.postEvent(new GameUpdateEvent(updateNumber));
-						break;
-					}
 					case ROOM_LIST: {
 						// Packet format
 						// {room1ID}:{room1Occupants}:{room1ReadyList}:{room1Name},{room2ID}:{room2Occupants}:{room2ReadyList}:{room2Name},...,{roomNID}:{roomNOccupants}:{roomNReadyList}:{roomNName}
@@ -137,6 +94,65 @@ final class ProcessInputThread extends Thread
 								break;
 							}
 						}
+						break;
+					}
+					case SETUP: {
+						// Packet format
+						// {playerCount}
+						String data = input.readLine();
+						
+						//noinspection unchecked
+						PacketEventHandler<SetupEvent> handler = Gateway.getHandlerForClass(SetupEvent.class);
+						if (handler == null)
+							return; //There is no handler for this event, don't bother
+						
+						handler.postEvent(new SetupEvent(Integer.parseInt(data)));
+						break;
+					}
+					case UPDATE: {
+						// Packet format
+						// {updatenumber}|{bikecount}|{bike1}|{bike2}|{bike3?}|{bike4?}
+						String[] data = input.readLine().split("\\|");
+						
+						//noinspection unchecked
+						PacketEventHandler<GameUpdateEvent> handler = Gateway.getHandlerForClass(GameUpdateEvent.class);
+						if (handler == null)
+							return; //There is no handler for this event, don't bother
+						
+						int bikeCount = Integer.parseInt(data[1]);
+						switch (bikeCount) {
+							case 4:
+								Bike.bike4.updateFrom(data[5]);
+							case 3:
+								Bike.bike3.updateFrom(data[4]);
+							case 2:
+								Bike.bike2.updateFrom(data[3]);
+								Bike.bike1.updateFrom(data[2]);
+						}
+						
+						handler.postEvent(new GameUpdateEvent(Integer.parseInt(data[0])));
+						break;
+					}
+					case CRASH: {
+						//noinspection unchecked
+						PacketEventHandler<YouCrashedEvent> handler = Gateway.getHandlerForClass(YouCrashedEvent.class);
+						if (handler == null)
+							return; //There is no handler for this event, don't bother
+						
+						handler.postEvent(new YouCrashedEvent());
+						break;
+					}
+					case FINISH: {
+						// Packet format
+						// {winner}
+						String data = input.readLine();
+						
+						//noinspection unchecked
+						PacketEventHandler<GameFinishedEvent> handler = Gateway.getHandlerForClass(GameFinishedEvent.class);
+						if (handler == null)
+							return; //There is no handler for this event, don't bother
+						
+						handler.postEvent(new GameFinishedEvent(Integer.parseInt(data)));
 						break;
 					}
 					case INVALID: {

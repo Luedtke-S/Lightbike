@@ -4,6 +4,7 @@ import java.util.regex.Pattern;
 
 import edu.lawrence.cmsc250.lightbike.client.game.Constants;
 import static edu.lawrence.cmsc250.lightbike.client.game.Constants.GRID_SCALE;
+import static edu.lawrence.cmsc250.lightbike.client.game.Constants.SCREEN_MARGIN;
 
 /**
  * @author thislooksfun
@@ -59,7 +60,7 @@ public class Point2D
 	{
 		double gX = this.x + (Constants.GRID_SIZE / 2.0);
 		double gY = this.y + (Constants.GRID_SIZE / 2.0);
-		return new Point2D(gX * GRID_SCALE, gY * GRID_SCALE);
+		return new Point2D((gX * GRID_SCALE) + SCREEN_MARGIN, (gY * GRID_SCALE) + SCREEN_MARGIN);
 	}
 	
 	@Override

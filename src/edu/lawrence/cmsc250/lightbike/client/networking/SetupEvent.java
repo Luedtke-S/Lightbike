@@ -5,5 +5,10 @@ package edu.lawrence.cmsc250.lightbike.client.networking;
  */
 public class SetupEvent implements PacketEvent
 {
+	public final int playerCount;
 	
+	public SetupEvent(int playerCount)
+	{
+		this.playerCount = playerCount;
+	}
 }

@@ -3,7 +3,6 @@ package edu.lawrence.cmsc250.lightbike.client.graphics;
 import java.io.IOException;
 
 import edu.lawrence.cmsc250.lightbike.client.game.Constants;
-import edu.lawrence.cmsc250.lightbike.client.graphics.panes.Grid;
 import edu.lawrence.cmsc250.lightbike.client.networking.Gateway;
 import edu.lawrence.cmsc250.lightbike.client.networking.RoomUpdateEvent;
 import edu.lawrence.cmsc250.lightbike.client.networking.SetupEvent;
@@ -42,10 +41,6 @@ public class PlayerStartMenuDialogController
 	
 	private boolean isP1 = false;
 	
-	int playersReady2 = 1;
-	int playersReady3 = 1;
-	int playersReady4 = 1;
-	
 	@FXML
 	public void initialize()
 	{
@@ -54,8 +49,8 @@ public class PlayerStartMenuDialogController
 		playerLabel3.setTextFill(Constants.GREEN);
 		playerLabel4.setTextFill(Constants.YELLOW);
 		readyLabel1.setTextFill(Constants.RED);
-		Gateway.setEventHandler(event -> gameUpdated(event), RoomUpdateEvent.class);
-		Gateway.setEventHandler(event -> showGrid(), SetupEvent.class);
+		Gateway.setEventHandler(this::gameUpdated, RoomUpdateEvent.class);
+		Gateway.setEventHandler(event -> Controller.showGame(event.playerCount, (Stage)readyButton.getScene().getWindow()), SetupEvent.class);
 	}
 	
 	public void gameUpdated(RoomUpdateEvent e)
@@ -172,27 +167,9 @@ public class PlayerStartMenuDialogController
 		Stage parent = (Stage)readyLabel1.getScene().getWindow();
 		
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("chooseRoomDialog.fxml"));
-		Parent root = (Parent)loader.load();
+		Parent root = loader.load();
 		Scene scene = new Scene(root);
 		parent.setScene(scene);
 		parent.setTitle("Choose Room");
-	}
-	
-	private void showGrid()
-	{
-		try {
-			Stage parent = (Stage)readyLabel1.getScene().getWindow();
-			
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("arena.fxml"));
-			Parent root = loader.load();
-			Scene scene = new Scene(root);
-			parent.setScene(scene);
-			parent.setTitle("It's on!");
-			
-			scene.setOnKeyPressed((evt) -> Grid.handleKeyEvent(evt));
-			Gateway.finishedSetup();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 }

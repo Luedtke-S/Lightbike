@@ -8,7 +8,7 @@ package edu.lawrence.cmsc250.lightbike.client.networking;
 public final class GameUpdateEvent implements PacketEvent
 {
 	/** The number of the last update received - used to make sure no update was missed */
-	public static int lastUpdateNumber = 0;
+	private static int lastUpdateNumber = 0;
 	
 	/**
 	 * Create a new GameUpdateEvent instance

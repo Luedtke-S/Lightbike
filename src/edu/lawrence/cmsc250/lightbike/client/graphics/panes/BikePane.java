@@ -59,6 +59,11 @@ public class BikePane extends Pane
 	
 	public void refresh()
 	{
+		if (bike.crashed()) {
+			this.getChildren().clear();
+			return;
+		}
+		
 		Point2D screenLoco = bike.getLocation().toGraphicsPosition();
 		
 		Direction dir = bike.getDirection();
