@@ -9,9 +9,9 @@ import javafx.util.Callback;
  */
 public class Room
 {
-	private static final int player2ReadyMask = 1;
+	private static final int player2ReadyMask = 1 << 2;
 	private static final int player3ReadyMask = 1 << 1;
-	private static final int player4ReadyMask = 1 << 2;
+	private static final int player4ReadyMask = 1;
 	
 	/** The ID of the room */
 	public final int id;

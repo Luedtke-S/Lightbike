@@ -56,7 +56,6 @@ public class PlayerStartMenuDialogController
 	
 	public void gameUpdated(RoomUpdateEvent e)
 	{
-		
 		if (e.roomClosed) {
 			try {
 				Stage parent = (Stage)readyButton.getScene().getWindow();
@@ -128,11 +127,8 @@ public class PlayerStartMenuDialogController
 			
 		} else {
 			Gateway.updateReadyState(readyButton.isSelected());
-			
 		}
-		
-		
-		
+
 //		Stage parent = (Stage)readyLabel1.getScene().getWindow();
 //		
 //		FXMLLoader loader = new FXMLLoader(getClass().getResource("arena.fxml"));
