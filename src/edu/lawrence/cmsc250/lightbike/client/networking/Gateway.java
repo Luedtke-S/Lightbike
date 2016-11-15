@@ -146,6 +146,11 @@ public enum Gateway
 		sendPacket(OutboundPacketType.CONTROL, d.toInt());
 	}
 	
+	public static void finishedSetup()
+	{
+		sendPacket(OutboundPacketType.READY_STATE, 1);
+	}
+	
 	// <editor-fold desc="Send packet methods" defaultstate="collapsed">
 	
 	/**

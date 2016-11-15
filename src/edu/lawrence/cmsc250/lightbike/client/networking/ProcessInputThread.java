@@ -56,6 +56,15 @@ final class ProcessInputThread extends Thread
 					case FINISH: {
 						break;
 					}
+					case SETUP: {
+						//noinspection unchecked
+						PacketEventHandler<SetupEvent> handler = Gateway.getHandlerForClass(SetupEvent.class);
+						if (handler == null)
+							return; //There is no handler for this event, don't bother
+						
+						handler.postEvent(new SetupEvent());
+						break;
+					}
 					case UPDATE: {
 						// Packet format
 						// {updatenumber}|{bikecount}|{bike1}|{bike2}|{bike3?}|{bike4?}

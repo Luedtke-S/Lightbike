@@ -13,12 +13,15 @@ enum InboundPacketType
 	ROOM_UPDATE,
 	/** -- 2 -- Respond to client request */
 	RESPONSE,
-	/** -- 3 -- Update the game state */
-	UPDATE,
+	/** -- 3 -- Setup the game state */
+	SETUP,
 	/** -- 4 -- Update the game state */
+	UPDATE,
+	/** -- 5 -- Update the game state */
 	CRASH,
-	/** -- 5 -- The game finished */
+	/** -- 6 -- The game finished */
 	FINISH,
+	
 	/** None of the other types match, thus it's invalid */
 	INVALID;
 	
@@ -39,10 +42,12 @@ enum InboundPacketType
 			case 2:
 				return RESPONSE;
 			case 3:
-				return UPDATE;
+				return SETUP;
 			case 4:
-				return CRASH;
+				return UPDATE;
 			case 5:
+				return CRASH;
+			case 6:
 				return FINISH;
 			default:
 				return INVALID;
