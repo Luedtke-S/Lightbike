@@ -63,7 +63,7 @@ public class PlayerStartMenuDialogController
 		playerLabel2.setTextFill(Constants.BLUE);
 		playerLabel3.setTextFill(Constants.GREEN);
 		playerLabel4.setTextFill(Constants.YELLOW);
-		readyLabel1.setTextFill(Constants.RED);
+		readyLabel1.setTextFill(Constants.READY);
 		Gateway.setEventHandler(this::gameUpdated, RoomUpdateEvent.class);
 		Gateway.setEventHandler(event -> Controller.show(event.playerCount), SetupEvent.class);
 	}
@@ -75,46 +75,52 @@ public class PlayerStartMenuDialogController
 		else {
 			int needReady = e.room.occupants - 1;
 			
-			if (e.room.occupants >= 2) {
-				if (e.room.player2Ready) {
-					readyLabel2.setText("READY");
-					readyLabel2.setTextFill(Constants.READY);
-					needReady--;
+			if (player != 2) {
+				if (e.room.occupants >= 2) {
+					if (e.room.player2Ready) {
+						readyLabel2.setText("READY");
+						readyLabel2.setTextFill(Constants.READY);
+						needReady--;
+					} else {
+						readyLabel2.setText("NOT READY");
+						readyLabel2.setTextFill(Constants.NOT_READY);
+					}
 				} else {
-					readyLabel2.setText("NOT READY");
-					readyLabel2.setTextFill(Constants.NOT_READY);
+					readyLabel2.setText("empty");
+					readyLabel2.setTextFill(Constants.EMPTY_SLOT);
 				}
-			} else {
-				readyLabel2.setText("empty");
-				readyLabel2.setTextFill(Constants.EMPTY_SLOT);
 			}
 			
-			if (e.room.occupants >= 3) {
-				if (e.room.player3Ready) {
-					readyLabel3.setText("READY");
-					readyLabel3.setTextFill(Constants.READY);
-					needReady--;
+			if (player != 3) {
+				if (e.room.occupants >= 3 && player != 2) {
+					if (e.room.player3Ready) {
+						readyLabel3.setText("READY");
+						readyLabel3.setTextFill(Constants.READY);
+						needReady--;
+					} else {
+						readyLabel3.setText("NOT READY");
+						readyLabel3.setTextFill(Constants.NOT_READY);
+					}
 				} else {
-					readyLabel3.setText("NOT READY");
-					readyLabel3.setTextFill(Constants.NOT_READY);
+					readyLabel3.setText("empty");
+					readyLabel3.setTextFill(Constants.EMPTY_SLOT);
 				}
-			} else {
-				readyLabel3.setText("empty");
-				readyLabel3.setTextFill(Constants.EMPTY_SLOT);
 			}
 			
-			if (e.room.occupants == 4) {
-				if (e.room.player4Ready) {
-					readyLabel4.setText("READY");
-					readyLabel4.setTextFill(Constants.READY);
-					needReady--;
+			if (player != 4) {
+				if (e.room.occupants == 4 && player != 2) {
+					if (e.room.player4Ready) {
+						readyLabel4.setText("READY");
+						readyLabel4.setTextFill(Constants.READY);
+						needReady--;
+					} else {
+						readyLabel4.setTextFill(Constants.NOT_READY);
+						readyLabel4.setText("NOT READY");
+					}
 				} else {
-					readyLabel4.setTextFill(Constants.NOT_READY);
-					readyLabel4.setText("NOT READY");
+					readyLabel4.setText("empty");
+					readyLabel4.setTextFill(Constants.EMPTY_SLOT);
 				}
-			} else {
-				readyLabel4.setText("empty");
-				readyLabel4.setTextFill(Constants.EMPTY_SLOT);
 			}
 			
 			if (player == 1)
@@ -130,7 +136,7 @@ public class PlayerStartMenuDialogController
 				readyButton.setText("Start");
 				readyButton.setDisable(true);
 				readyLabel1.setText("You");
-				readyLabel2.setTextFill(Constants.YOU_COLOR);
+				readyLabel1.setTextFill(Constants.YOU_COLOR);
 				break;
 			case 2:
 				readyLabel2.setText("You");
@@ -138,11 +144,11 @@ public class PlayerStartMenuDialogController
 				break;
 			case 3:
 				readyLabel3.setText("You");
-				readyLabel2.setTextFill(Constants.YOU_COLOR);
+				readyLabel3.setTextFill(Constants.YOU_COLOR);
 				break;
 			case 4:
 				readyLabel4.setText("You");
-				readyLabel2.setTextFill(Constants.YOU_COLOR);
+				readyLabel4.setTextFill(Constants.YOU_COLOR);
 				break;
 		}
 	}
