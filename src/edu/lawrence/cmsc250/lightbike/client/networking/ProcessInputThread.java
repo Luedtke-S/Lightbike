@@ -121,14 +121,15 @@ final class ProcessInputThread extends Thread
 							return; //There is no handler for this event, don't bother
 						
 						int bikeCount = Integer.parseInt(data[1]);
+						Bike[] bikes = Bike.getBikes();
 						switch (bikeCount) {
 							case 4:
-								Bike.bike4.updateFrom(data[5]);
+								bikes[3].updateFrom(data[5]);
 							case 3:
-								Bike.bike3.updateFrom(data[4]);
+								bikes[2].updateFrom(data[4]);
 							case 2:
-								Bike.bike2.updateFrom(data[3]);
-								Bike.bike1.updateFrom(data[2]);
+								bikes[1].updateFrom(data[3]);
+								bikes[0].updateFrom(data[2]);
 						}
 						
 						handler.postEvent(new GameUpdateEvent(Integer.parseInt(data[0])));

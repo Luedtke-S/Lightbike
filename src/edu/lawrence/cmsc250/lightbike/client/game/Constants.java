@@ -5,8 +5,10 @@ import javafx.scene.paint.Color;
 /**
  * @author thislooksfun
  */
-public class Constants
+public enum Constants
 {
+	;
+	
 	/** The size of the game grid */
 	public static final int GRID_SIZE = 60;
 	/** How far from the edges the bikes should start */
@@ -27,4 +29,6 @@ public class Constants
 	public static final Color READY = new Color(0.5, 0.75, 0.5, 1);
 	public static final Color NOT_READY = new Color(0.75, 0.5, 0.5, 1);
 	public static final Color EMPTY_SLOT = new Color(0.4, 0.4, 0.4, 1);
+	
+	public static String ip = "localhost";
 }

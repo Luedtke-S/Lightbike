@@ -64,6 +64,14 @@ public class PlayerStartMenuDialogController
 		playerLabel3.setTextFill(Constants.GREEN);
 		playerLabel4.setTextFill(Constants.YELLOW);
 		readyLabel1.setTextFill(Constants.READY);
+		
+		readyLabel2.setText("empty");
+		readyLabel2.setTextFill(Constants.EMPTY_SLOT);
+		readyLabel3.setText("empty");
+		readyLabel3.setTextFill(Constants.EMPTY_SLOT);
+		readyLabel4.setText("empty");
+		readyLabel4.setTextFill(Constants.EMPTY_SLOT);
+		
 		Gateway.setEventHandler(this::gameUpdated, RoomUpdateEvent.class);
 		Gateway.setEventHandler(event -> Controller.show(event.playerCount), SetupEvent.class);
 	}

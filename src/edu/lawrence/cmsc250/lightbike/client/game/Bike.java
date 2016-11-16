@@ -17,16 +17,16 @@ public class Bike
 	public static final Pattern BIKE_STRING_FORMAT = Pattern.compile("^" + Point2D.POINT_STRING_FORMAT + ">\\d(>\\d>" + Point2D.POINT_STRING_FORMAT + ")?$");
 	
 	/** Player 1 - Starts top-left moving right  --  color: red */
-	public static final Bike bike1 = new Bike(new Point2D(-1 * START_OFFSET, -1 * START_OFFSET), Direction.RIGHT, BikeColor.RED);
+	private static Bike bike1;
 	/** Player 2 - Starts bottom-right moving left  --  color: blue */
-	public static final Bike bike2 = new Bike(new Point2D(START_OFFSET, START_OFFSET), Direction.LEFT, BikeColor.BLUE);
+	private static Bike bike2;
 	/** Player 3 - Starts top-right moving up  --  color: green */
-	public static final Bike bike3 = new Bike(new Point2D(START_OFFSET, -1 * START_OFFSET), Direction.DOWN, BikeColor.GREEN);
+	private static Bike bike3;
 	/** Player 4 - Starts bottom-left moving down  --  color: yellow */
-	public static final Bike bike4 = new Bike(new Point2D(-1 * START_OFFSET, START_OFFSET), Direction.UP, BikeColor.YELLOW);
+	private static Bike bike4;
 	
 	/** How many players there are */
-	public static int bikeCount = -1;
+	private static int bikeCount = -1;
 	
 	/** The color of the bike */
 	public final BikeColor color;
@@ -74,6 +74,15 @@ public class Bike
 		}
 		
 		throw new IllegalStateException("Something went very wrong");
+	}
+	
+	public static void init(int playerCount)
+	{
+		bikeCount = playerCount;
+		bike1 = new Bike(new Point2D(-1 * START_OFFSET, -1 * START_OFFSET), Direction.RIGHT, BikeColor.RED);
+		bike2 = new Bike(new Point2D(START_OFFSET, START_OFFSET), Direction.LEFT, BikeColor.BLUE);
+		bike3 = new Bike(new Point2D(START_OFFSET, -1 * START_OFFSET), Direction.DOWN, BikeColor.GREEN);
+		bike4 = new Bike(new Point2D(-1 * START_OFFSET, START_OFFSET), Direction.UP, BikeColor.YELLOW);
 	}
 	
 	/**

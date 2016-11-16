@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import edu.lawrence.cmsc250.lightbike.client.game.Bike;
 import edu.lawrence.cmsc250.lightbike.client.game.Constants;
 import edu.lawrence.cmsc250.lightbike.client.game.physics.Direction;
+import edu.lawrence.cmsc250.lightbike.client.graphics.ChooseRoomDialogController;
 import edu.lawrence.cmsc250.lightbike.client.networking.GameFinishedEvent;
 import edu.lawrence.cmsc250.lightbike.client.networking.Gateway;
 import javafx.geometry.VPos;
@@ -29,6 +30,7 @@ public class Grid extends Pane
 	private Text crashedText = new Text("You Crashed");
 	private Text finishedText = new Text("Game Over");
 	private Text winnerText = new Text("Winner: Player 1");
+	private Text tryAgainText = new Text("Press 'R' to play again");
 	
 	private boolean crashed = false;
 	private boolean finished = false;
@@ -55,7 +57,7 @@ public class Grid extends Pane
 		finishedText.setY(SCREEN_MARGIN + (GRID_SCREEN_SIZE / 2) - finishedText.getBoundsInLocal().getHeight());
 		finishedText.setOpacity(0);
 		this.getChildren().add(finishedText);
-
+		
 		winnerText.setTextOrigin(VPos.CENTER);
 		winnerText.setTextAlignment(TextAlignment.CENTER);
 		winnerText.setFont(new Font(30));
@@ -65,10 +67,19 @@ public class Grid extends Pane
 		winnerText.setOpacity(0);
 		this.getChildren().add(winnerText);
 		
+		tryAgainText.setTextOrigin(VPos.CENTER);
+		tryAgainText.setTextAlignment(TextAlignment.CENTER);
+		tryAgainText.setFont(new Font(30));
+		tryAgainText.setFill(Constants.GAME_OVER_TEXT);
+		tryAgainText.setX(SCREEN_MARGIN + (GRID_SCREEN_SIZE / 2) - tryAgainText.getBoundsInLocal().getWidth() / 2);
+		tryAgainText.setY(SCREEN_MARGIN + (GRID_SCREEN_SIZE / 2) + tryAgainText.getBoundsInLocal().getHeight());
+		tryAgainText.setOpacity(0);
+		this.getChildren().add(tryAgainText);
+		
 		draw();
 	}
 	
-	public static void handleKeyEvent(KeyEvent key)
+	public void handleKeyEvent(KeyEvent key)
 	{
 		switch (key.getCode()) {
 			case LEFT:
@@ -85,8 +96,11 @@ public class Grid extends Pane
 				break;
 			case ESCAPE:
 				Gateway.sendLeaveRoom();
+				ChooseRoomDialogController.show();
 				break;
 			case R:
+				this.tryAgainText.setText("Waiting for other players...");
+				tryAgainText.setX(SCREEN_MARGIN + (GRID_SCREEN_SIZE / 2) - tryAgainText.getBoundsInLocal().getWidth() / 2);
 				Gateway.rematch();
 		}
 	}
@@ -96,6 +110,7 @@ public class Grid extends Pane
 		crashedText.setOpacity((!finished && crashed) ? 1 : 0);
 		finishedText.setOpacity(finished ? 1 : 0);
 		winnerText.setOpacity(finished ? 1 : 0);
+		tryAgainText.setOpacity(finished ? 1 : 0);
 		
 		for (BikePane b : bikes)
 			b.refresh();

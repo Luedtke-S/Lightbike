@@ -5,6 +5,7 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.lawrence.cmsc250.lightbike.client.game.Constants;
 import edu.lawrence.cmsc250.lightbike.client.game.physics.Direction;
 
 /**
@@ -28,7 +29,7 @@ public enum Gateway
 		InputStream inputStream = null;
 		try {
 			// Create a socket to connect to the server
-			Socket socket = new Socket("143.44.68.178", 1337); //TODO: Move host port either into constants, or preferably into startup input box
+			Socket socket = new Socket(Constants.ip, 1337);
 			outputStream = socket.getOutputStream();
 			inputStream = socket.getInputStream();
 		} catch (IOException ex) {
