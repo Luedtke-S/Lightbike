@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="lightbike" default="default" basedir="." xmlns:fx="javafx:com.sun.javafx.tools.ant">
+
+  <property name="java.home" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_101.jdk/Contents/Home"/>
+  <property name="source.dir" value="src"/>
+  <property name="out.dir" value="build"/>
+  <property name="out.dir.classes" value="${out.dir}/classes" />
+  <property name="out.dir.dist" value="${out.dir}/dist"/>
+  <property name="app.jar.name" value="Lightbike.jar"/>
+
+  <path id="classpath">
+    <fileset dir="${java.home}/lib" includes="**/*.jar"/>
+  </path>
+
+  <target name="default">
+    <taskdef resource="com/sun/javafx/tools/ant/antlib.xml"
+             uri="javafx:com.sun.javafx.tools.ant"
+             classpath=".:${java.home}/lib/ant-javafx.jar"/>
+  </target>
+
+  <target name="clean">
+    <delete dir="${out.dir}"/>
+  </target>
+
+  <target name="init" depends="clean">
+    <mkdir dir="${out.dir}"/>
+    <mkdir dir="${out.dir.classes}"/>
+    <mkdir dir="${out.dir.dist}"/>
+  </target>
+
+  <target name="compile" depends="default, init">
+    <javac srcdir="${source.dir}" destdir="${out.dir}/classes" classpathref="classpath"
+           source="1.8"
+           target="1.8" />
+    <copy todir="${out.dir}/classes">
+      <fileset dir="${source.dir}">
+        <include name="**/*.png" />
+        <include name="**/*.fxml" />
+        <include name="**/*.css" />
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="build" depends="compile">
+    <fx:jar destfile="${out.dir.dist}/${app.jar.name}">
+      <fx:application id="Lightbike" name="Lightbike" mainClass="edu.lawrence.cmsc250.lightbike.client.Main"/>
+      
+      <fx:platform javafx="2.1+">
+        <fx:jvmarg value="-Xdock:name=Lightbike"/>
+      </fx:platform>
+      
+      <manifest>
+        <attribute name="Implementation-Vendor"
+                   value="tlf and batman"/>
+        <attribute name="Implementation-Title"
+                   value="Lightbike"/>
+        <attribute name="Implementation-Version" value="1.0"/>
+        <attribute name="Application-Name"
+                   value="Lightbike" />
+      </manifest>
+
+      <fileset dir="${out.dir.classes}"/>
+    </fx:jar>
+  </target>
+</project>
